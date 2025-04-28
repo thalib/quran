@@ -7,3 +7,9 @@ draft = false
 Laborum voluptate pariatur ex culpa magna nostrud est incididunt fugiat
 pariatur do dolor ipsum enim. Consequat tempor do dolor eu. Non id id anim anim
 excepteur excepteur pariatur nostrud qui irure ullamco.
+
+{{< quran v="2:11-12" >}}
+
+here is a simple verses 
+
+{{< quran v="1:1-7" >}}

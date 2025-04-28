@@ -1,0 +1,56 @@
+{{- $v := .Get "v" | default "" -}}
+{{- $parts := split $v ":" -}}
+{{- $chapter := "" -}}
+{{- $verseSpec := "" -}}
+{{- if eq (len $parts) 2 -}}
+  {{- $chapter = index $parts 0 -}}
+  {{- $verseSpec = index $parts 1 -}}
+{{- else -}}
+  {{- errorf "Invalid format for 'v' parameter in quran shortcode: %q. Expected format: 'chapter:verse' or 'chapter:start-end'." $v -}}
+{{- end -}}
+
+{{- $chapterData := index .Site.Data.quran $chapter -}} {{/* <-- Access data differently */}}
+
+{{- if not $chapterData -}}
+  {{/* Construct the expected path string just for the error message */}}
+  {{- $expectedPath := printf "data/quran/%s.json" $chapter -}}
+  {{- errorf "Quran data not found for chapter %s. Expected file: %s" $chapter $expectedPath -}}
+{{- end -}}
+
+{{- $startVerse := 0 -}}
+{{- $endVerse := 0 -}}
+{{- $isRange := false -}}
+
+{{- if findRE "-" $verseSpec -}}
+  {{- $rangeParts := split $verseSpec "-" -}}
+  {{- if eq (len $rangeParts) 2 -}}
+    {{- $startVerse = int (index $rangeParts 0) -}}
+    {{- $endVerse = int (index $rangeParts 1) -}}
+    {{- $isRange = true -}}
+  {{- else -}}
+    {{- errorf "Invalid verse range format: %q" $verseSpec -}}
+  {{- end -}}
+{{- else -}}
+  {{- $startVerse = int $verseSpec -}}
+  {{- $endVerse = $startVerse -}}
+{{- end -}}
+
+{{- if le $startVerse 0 -}}
+  {{- errorf "Invalid start verse number: %d" $startVerse -}}
+{{- end -}}
+{{- if lt $endVerse $startVerse -}}
+   {{- errorf "End verse %d cannot be less than start verse %d" $endVerse $startVerse -}}
+{{- end -}}
+
+<blockquote>
+  {{- range $verseNum := seq $startVerse $endVerse -}}
+    {{- $verseNumStr := string $verseNum -}}
+    {{- $verseText := index $chapterData $verseNumStr -}}
+    {{- if $verseText -}}
+      <p><strong>{{ $verseNum }}</strong> {{ $verseText | safeHTML }}</p>
+    {{- else -}}
+      <p><em>Verse {{ $chapter }}:{{ $verseNum }} not found.</em></p>
+    {{- end -}}
+  {{- end -}}
+  <footer><cite>Quran {{ $v }}</cite></footer>
+</blockquote>
