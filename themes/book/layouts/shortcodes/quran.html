@@ -48,7 +48,8 @@
       {{- $verseNumStr := string $verseNum -}}
       {{- $verseText := index $chapterData $verseNumStr -}}
       {{- if $verseText -}}
-        {{ $verseNum }}. {{ $verseText | safeHTML }}, 
+        {{ $verseNum }}. {{ $verseText | safeHTML }}
+        {{- if ne $verseNum $endVerse -}}, {{- end -}}
       {{- else -}}
         <p><em>Verse {{ $chapter }}:{{ $verseNum }} not found.</em></p>
       {{- end -}}

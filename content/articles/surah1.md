@@ -1,7 +1,15 @@
 +++
-title = 'Surah 1'
-date = 2023-03-15T11:00:00-07:00
+title = 'Surah 1: The Opening (Al-Fatiha)'
+date = 2025-04-29
 tags = ['dua']
 +++
 
-{{< quran v="1:1-7" >}}
+This is the first chapter of the Holy Quran. It consists of 7 verses.
+
+{{< quran v="1:1-4" >}}
+
+Verses 1 to 4 praise Allah (God).
+
+{{< quran v="1:5-7" >}}
+
+Verses 5 to 7 form a Dua (prayer) by the reader of the Quran, seeking guidance on the straight path and asking Allah to lead them on the righteous way.
