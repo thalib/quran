@@ -42,15 +42,19 @@
    {{- errorf "End verse %d cannot be less than start verse %d" $endVerse $startVerse -}}
 {{- end -}}
 
-<blockquote>
-  {{- range $verseNum := seq $startVerse $endVerse -}}
-    {{- $verseNumStr := string $verseNum -}}
-    {{- $verseText := index $chapterData $verseNumStr -}}
-    {{- if $verseText -}}
-      <p><strong>{{ $verseNum }}</strong> {{ $verseText | safeHTML }}</p>
-    {{- else -}}
-      <p><em>Verse {{ $chapter }}:{{ $verseNum }} not found.</em></p>
+<figure class="my-4 p-4 border border-4 border-primary rounded-5 rounded-bottom-0 rounded-start-5">
+  <blockquote class="blockquote">
+    {{- range $verseNum := seq $startVerse $endVerse -}}
+      {{- $verseNumStr := string $verseNum -}}
+      {{- $verseText := index $chapterData $verseNumStr -}}
+      {{- if $verseText -}}
+        {{ $verseNum }}. {{ $verseText | safeHTML }}, 
+      {{- else -}}
+        <p><em>Verse {{ $chapter }}:{{ $verseNum }} not found.</em></p>
+      {{- end -}}
     {{- end -}}
-  {{- end -}}
-  <footer><cite>Quran {{ $v }}</cite></footer>
-</blockquote>
+  </blockquote>
+  <figcaption class="blockquote-footer text-end">
+    <cite title="Source Title">Quran {{ $v }}</cite>
+  </figcaption>
+</figure>

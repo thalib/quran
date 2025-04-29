@@ -5,8 +5,8 @@ theme = 'book'
 
 [menus]
   [[menus.main]]
-    name = 'Posts'
-    pageRef = '/posts'
+    name = 'Articles'
+    pageRef = '/articles'
     weight = 20
 
   [[menus.main]]

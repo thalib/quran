@@ -1,0 +1,41 @@
+{{ define "main" }}
+<main class="container py-5" itemscope itemtype="http://schema.org/WebPage">
+  <header class="mb-4">
+    <h1 class="display-4" itemprop="headline">{{ .Title }}</h1>
+    {{ with .Params.description }}
+      <p class="lead" itemprop="description">{{ . }}</p>
+      <meta name="description" content="{{ . }}">
+    {{ end }}
+    <meta itemprop="url" content="{{ .Permalink }}">
+  </header>
+
+  <section class="row">
+    <div class="col" itemprop="mainContentOfPage">
+      {{ .Content }}
+      <h2 class="py-2 mb-4 border-bottom border-5">Articles</h2>
+      {{ range site.RegularPages }}
+        <article class="mb-4" itemscope itemtype="http://schema.org/Article">
+          <a href="{{ .RelPermalink }}" class="h3 d-block mb-1" itemprop="url">
+            <span itemprop="headline">{{ .LinkTitle }}</span>
+          </a>
+          <div class="mb-1" itemprop="description">{{ .Summary }}</div>
+          <small class="text-muted">
+            {{ .Date.Format "January 2, 2006" }}
+          </small>
+        </article>
+      {{ end }}
+    </div>
+  </section>
+
+  <!-- Structured Data for SEO -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "{{ .Title }}",
+    "url": "{{ .Permalink }}",
+    "description": "{{ with .Params.description }}{{ . }}{{ else }}{{ .Summary }}{{ end }}"
+  }
+  </script>
+</main>
+{{ end }}

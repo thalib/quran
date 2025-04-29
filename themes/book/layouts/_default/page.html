@@ -1,0 +1,26 @@
+{{ define "main" }}
+<article class="container" itemscope itemtype="http://schema.org/Article">
+  <header class="row">
+    <div class="col">
+      <h1 itemprop="headline">{{ .Title }}</h1>
+      {{ $dateMachine := .Date | time.Format "2006-01-02T15:04:05-07:00" }}
+      {{ $dateHuman := .Date | time.Format ":date_long" }}
+      <time datetime="{{ $dateMachine }}" itemprop="datePublished" aria-label="Published on {{ $dateHuman }}">{{ $dateHuman }}</time>
+      {{ with .Params.author }}
+        <span class="author" itemprop="author">{{ . }}</span>
+      {{ end }}
+    </div>
+  </header>
+
+  <section class="row">
+    <div class="col" itemprop="articleBody">
+      {{ .Content }}
+    </div>
+  </section>
+  <footer class="row">
+    <div class="col">
+      {{ partial "list/terms.html" (dict "taxonomy" "tags" "page" .) }}
+    </div>
+  </footer>
+</article>
+{{ end }}

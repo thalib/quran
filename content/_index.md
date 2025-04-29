@@ -10,6 +10,3 @@ excepteur excepteur pariatur nostrud qui irure ullamco.
 
 {{< quran v="2:11-12" >}}
 
-here is a simple verses 
-
-{{< quran v="1:1-7" >}}
