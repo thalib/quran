@@ -10,6 +10,11 @@ theme = 'book'
     weight = 20
 
   [[menus.main]]
+    name = 'Salah'
+    pageRef = '/salah'
+    weight = 21
+
+  [[menus.main]]
     name = 'Tags'
     pageRef = '/tags'
     weight = 30
