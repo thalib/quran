@@ -1,4 +1,5 @@
 {{- $v := .Get "v" | default "" -}}
+{{- $trans := .Get "trans" | default "clearquran" -}}
 {{- $parts := split $v ":" -}}
 {{- $chapter := "" -}}
 {{- $verseSpec := "" -}}
@@ -9,11 +10,10 @@
   {{- errorf "Invalid format for 'v' parameter in quran shortcode: %q. Expected format: 'chapter:verse' or 'chapter:start-end'." $v -}}
 {{- end -}}
 
-{{- $chapterData := index .Site.Data.quran $chapter -}} {{/* <-- Access data differently */}}
+{{- $chapterData := index (index .Site.Data.quran $trans) $chapter -}} {{/* <-- Use selected translation */}}
 
 {{- if not $chapterData -}}
-  {{/* Construct the expected path string just for the error message */}}
-  {{- $expectedPath := printf "data/quran/%s.json" $chapter -}}
+  {{- $expectedPath := printf "data/quran/%s/%s.json" $trans $chapter -}}
   {{- errorf "Quran data not found for chapter %s. Expected file: %s" $chapter $expectedPath -}}
 {{- end -}}
 
@@ -49,13 +49,13 @@
       {{- $verseText := index $chapterData $verseNumStr -}}
       {{- if $verseText -}}
         {{ $verseNum }}. {{ $verseText | safeHTML }}
-        {{- if ne $verseNum $endVerse -}}, {{- end -}}
+        {{- if ne $verseNum $endVerse -}} {{ " " }} <br>{{- end -}}
       {{- else -}}
         <p><em>Verse {{ $chapter }}:{{ $verseNum }} not found.</em></p>
       {{- end -}}
     {{- end -}}
   </blockquote>
-  <figcaption class="blockquote-footer text-end">
+  <figcaption class="blockquote-footer">
     <cite title="Source Title">Quran {{ $v }}</cite>
   </figcaption>
 </figure>
