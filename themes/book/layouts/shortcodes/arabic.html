@@ -6,7 +6,7 @@
             </div>
         {{ end }}
     {{ end }}
-    <div class="card-body bg-light">
+    <div class="card-body bg-light {{ with .Get "title" }} {{else}}rounded{{ end }}">
         <div class="card-text text-dark fs-1 fw-semibold text-end fw-bold" dir="rtl" lang="ar" style="font-family: 'Naskh Sndhi Bold', serif;">
             {{ .Inner }}
         </div>
