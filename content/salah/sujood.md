@@ -46,6 +46,18 @@ When you sit from the first Sujood say one of the following dua between 2 sujood
 
 {{< /arabic >}}
 
+### Translation
+
+{{< wfw eng="O Allah forgive me, have mercy upon me, guide me, enrich me, give me health, grant me sustenance and, raise my rank." >}}
+اللّهُـمَّ اغْفِـرْ لي
+وَارْحَمْـني 
+وَاهْدِنـي 
+وَاجْبُرْنـي
+وَعافِنـي
+وَارْزُقْنـي
+وَارْفَعْـني
+{{< /wfw >}}
+
 ## Refrence
 
 - https://nooracademy.com/dua-between-two-sujood/

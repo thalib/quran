@@ -1,0 +1,34 @@
+{{- $engs := slice -}}
+{{- range (split (.Get "eng") ",") -}}
+    {{- $engs = $engs | append (trim . " ") -}}
+{{- end -}}
+{{- /* Get inner content and handle leading/trailing whitespace properly */ -}}
+{{- $innerContent := trim .Inner "\n\r\t " -}}
+{{- $arLines := slice -}}
+{{- range $i, $line := split $innerContent "\n" -}}
+    {{- $line = trim $line " " -}}
+    {{- if gt (len $line) 0 -}}
+        {{- $arLines = $arLines | append $line -}}
+    {{- end -}}
+{{- end -}}
+{{- /* Rest of existing code */ -}}
+{{- $dict := dict -}}
+{{- $lenEng := len $engs -}}
+{{- $lenAr := len $arLines -}}
+{{- $count := cond (lt $lenEng $lenAr) $lenEng $lenAr -}}
+{{- range $i, $v := seq 0 (sub $count 1) -}}
+    {{- $dict = merge $dict (dict (index $engs $i) (index $arLines $i)) -}}
+{{- end -}}
+
+<div class="d-flex flex-row flex-wrap justify-content-start pt-4 pb-1 border-top border-bottom" dir="rtl">
+    {{- range $i, $v := seq 0 (sub $count 1) -}}
+        <div class="ar-eng-group mb-4 me-4" >
+            <div class="arabic-text fs-2 fw-semibold mb-1" style="font-family: 'Naskh Sndhi Bold', serif;">
+                {{ index $arLines $i }}
+            </div>
+            <div class="text-end fs-4" dir="ltr">
+                {{ index $engs $i }}
+            </div>
+        </div>
+    {{- end -}}
+</div>
