@@ -9,23 +9,32 @@
     <meta itemprop="url" content="{{ .Permalink }}">
   </header>
 
-  <section class="row">
-    <div class="col" itemprop="mainContentOfPage">
-      {{ .Content }}
-      <h2 class="py-2 mb-4 border-bottom border-5">Articles</h2>
-      {{ range site.RegularPages }}
-        <article class="mb-4" itemscope itemtype="http://schema.org/Article">
-          <a href="{{ .RelPermalink }}" class="h3 d-block mb-1" itemprop="url">
-            <span itemprop="headline">{{ .LinkTitle }}</span>
-          </a>
-          <div class="mb-1" itemprop="description">{{ .Summary }}</div>
-          <small class="text-muted">
-            {{ .Date.Format "January 2, 2006" }}
-          </small>
-        </article>
-      {{ end }}
-    </div>
-  </section>
+  {{ .Content }}
+
+  <!-- Content Sections -->
+  <div class="row">
+    {{ range site.Sections }}
+      <div class="col-md-6 mb-5">
+        <section>
+          <h2 class="py-2 mb-4 border-bottom border-3">
+            <a href="{{ .RelPermalink }}" class="text-decoration-none">{{ .Title }}</a>
+          </h2>
+          <div class="row">
+            {{ range first 10 .RegularPages }}
+              <div class="col-12 mx-1">
+                <article itemscope itemtype="http://schema.org/Article">
+                  <a href="{{ .RelPermalink }}" class="h6 d-block mb-1 text-decoration-none" itemprop="url">
+                    <span itemprop="headline">{{ .LinkTitle }}</span>
+                  </a>
+                  
+                </article>
+              </div>
+            {{ end }}
+          </div>
+        </section>
+      </div>
+    {{ end }}
+  </div>
 
   <!-- Structured Data for SEO -->
   <script type="application/ld+json">

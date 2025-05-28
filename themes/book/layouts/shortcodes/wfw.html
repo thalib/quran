@@ -20,7 +20,7 @@
     {{- $dict = merge $dict (dict (index $engs $i) (index $arLines $i)) -}}
 {{- end -}}
 
-<div class="d-flex flex-row flex-wrap justify-content-start pt-4 pb-1 border-top border-bottom" dir="rtl">
+<div class="d-flex flex-row flex-wrap justify-content-start py-2 mb-4 border-top border-bottom" dir="rtl">
     {{- range $i, $v := seq 0 (sub $count 1) -}}
         <div class="ar-eng-group mb-4 me-4" >
             <div class="arabic-text fs-2 fw-semibold mb-1" style="font-family: 'Naskh Sndhi Bold', serif;">

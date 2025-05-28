@@ -1,8 +1,51 @@
 {{ define "main" }}
-  <h1>{{ .Title }}</h1>
-  {{ .Content }}
-  {{ range .Pages }}
-    <h2><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></h2>
-    {{ .Summary }}
-  {{ end }}
+<main class="container py-5" role="main">
+  <header class="row">
+    <div class="col-12">
+      <h1 class="py-2 mb-4 border-bottom border-5 border-primary">{{ .Title }}</h1>
+      {{ if .Content }}
+      <div class="lead mb-4">{{ .Content }}</div>
+      {{ end }}
+    </div>
+  </header>
+  
+  <section class="row" aria-label="Article listing">
+    {{ range .Pages }}
+    <article class="col-12 mb-4 pb-4 border-bottom" itemscope itemtype="https://schema.org/Article">
+      <header>
+        <h2 class="h4 mb-3">
+          <a href="{{ .RelPermalink }}" class="text-decoration-none" itemprop="url">
+            <span itemprop="headline">{{ .LinkTitle }}</span>
+          </a>
+        </h2>
+      </header>
+      
+      <div class="article-content">
+        {{ if .Summary }}
+        <p class="text-muted mb-3" itemprop="description">{{ .Summary }}</p>
+        {{ end }}
+        
+        <div class="article-meta d-flex flex-wrap gap-3 text-sm text-muted">
+          {{ if .Date }}
+          <time datetime="{{ .Date.Format "2006-01-02" }}" itemprop="datePublished">
+            <i class="bi bi-calendar3" aria-hidden="true"></i>
+            {{ .Date.Format "January 2, 2006" }}
+          </time>
+          {{ end }}
+          
+          {{ if .ReadingTime }}
+          <span itemprop="timeRequired" content="PT{{ .ReadingTime }}M">
+            <i class="bi bi-clock" aria-hidden="true"></i>
+            {{ .ReadingTime }} min read
+          </span>
+          {{ end }}
+        </div>
+      </div>
+      
+      <meta itemprop="author" content="{{ .Site.Author.name | default .Site.Title }}">
+      <meta itemprop="publisher" content="{{ .Site.Title }}">
+    </article>
+    {{ end }}
+  </section>
+</main>
 {{ end }}

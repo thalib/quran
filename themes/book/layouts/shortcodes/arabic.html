@@ -1,13 +1,14 @@
 <div class="card my-3 rounded-3 shadow-sm">
     {{ if .IsNamedParams }}
+        {{ $color := .Get "color" }}
         {{ with .Get "title" }}
-            <div class="card-header bg-primary text-white py-2 px-3">
+            <div class="card-header {{ if eq $color "light" }}bg-primary{{ end }} text-white py-2 px-3">
                 <span class="card-title fw-semibold">{{ . }}</span>
             </div>
         {{ end }}
     {{ end }}
-    <div class="card-body bg-light {{ with .Get "title" }} {{else}}rounded{{ end }}">
-        <div class="card-text text-dark fs-2 fw-semibold text-end fw-bold" dir="rtl" lang="ar" style="font-family: 'Naskh Sndhi Bold', serif;">
+    <div class="card-body {{ if eq (.Get "color") "light" }}bg-light{{ end }} {{ with .Get "title" }} {{else}}rounded{{ end }}">
+        <div class="card-text {{ if eq (.Get "color") "light" }}text-dark{{ else }}text-light{{ end }} fs-2 fw-semibold text-end fw-bold" dir="rtl" lang="ar" style="font-family: 'Naskh Sndhi Bold', serif;">
             {{ .Inner }}
         </div>
     </div>
