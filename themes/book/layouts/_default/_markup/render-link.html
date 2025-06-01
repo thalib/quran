@@ -1,0 +1,13 @@
+{{ if .Title -}}
+<div class="card text-bg-primary  mb-3">
+  <div class="card-body">
+    <p class="card-text fs-5">
+        {{.Title}}
+       <a class="link-light stretched-link" href="{{ .Destination | safeURL }}" {{ if strings.HasPrefix .Destination "http" }} target="_blank" rel="noopener"{{ end }}> ⏵</a>
+    </p>
+  </div>
+</div>
+{{- else -}}
+<a href="{{ .Destination | safeURL }}"{{ if strings.HasPrefix .Destination "http" }} target="_blank" rel="noopener"{{ end }}>{{ .Text | safeHTML }}</a>
+{{- end }}
+

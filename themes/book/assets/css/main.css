@@ -9,3 +9,13 @@ html, body {
 cite {
     font-size: 1.5rem;
 }
+
+.hover_link {
+    opacity: 0;
+    transition: opacity 0.2s;
+    text-decoration: none;
+}
+
+.hover_link:hover {
+    opacity: 1;
+}

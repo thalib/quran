@@ -1,0 +1,20 @@
+{{- $image := resources.Get .Destination -}}
+{{- if $image -}}
+
+{{- $image_size := printf "%dx%d" $image.Width $image.Height -}}
+{{- if and .Title (findRE `^\d+x\d+$` .Title) -}}
+    {{- $image_size = .Title -}}
+{{- end -}}
+
+{{- $product_image_webp := partial "gen/webpConverter" (dict "ImageSrc" .Destination "WebpParam" (printf "%s webp q100" $image_size)) -}}
+{{- $product_image_jpg := partial "gen/webpConverter" (dict "ImageSrc" .Destination "WebpParam" (printf "%s jpg q100" $image_size)) -}}
+<picture>
+    <source srcset="{{ $product_image_webp }}" type="image/webp">
+    <source srcset="{{ $product_image_jpg }}" type="image/jpeg">
+    <img loading="lazy" class="img-fluid rounded" src="{{ $product_image_jpg }}" width="{{ $image.Width }}" height="{{ $image.Height  }}" {{ with .Text}} alt="{{ . }}" {{ else }} alt="{{ .Page.Title }}" {{ end }} {{ with .Title}} title="{{ . }}"{{ end }}>
+</picture>
+{{- else -}}
+    <img loading="lazy" class="img-fluid rounded" src="{{ .Destination | safeURL }}" {{ with .Text}} alt="{{ . }}" {{ else }} alt="{{ .Page.Title }}" {{ end }} {{ with .Title}} title="{{ . }}"{{ end }} />
+    {{- warnf  "Image not found %q => %q" .Destination .Page.File -}}
+{{- end -}}
+

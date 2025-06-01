@@ -1,0 +1,17 @@
+
+
+{{- $image := "/images/placeholder.png" -}} {{/* Step 1: A dummy image as fallback */}}
+{{/* Step 2: check if image exists with same as title */}}
+
+{{- $image_url := resources.Get .ImageSrc -}}
+{{- $webp_param := .WebpParam -}}
+
+{{- if $image_url -}} 
+    {{/* Resize and convert the image  */}}
+    {{- $image_url = $image_url.Resize  $webp_param -}}
+    {{- $image = $image_url.RelPermalink -}}
+{{- else -}}
+    {{- warnf  "Image not found %q" .ImageSrc -}}
+{{- end -}}
+
+{{- return $image -}}
