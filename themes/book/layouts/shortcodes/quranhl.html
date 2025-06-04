@@ -1,0 +1,66 @@
+{{- $v := .Get "v" | default "" -}}
+{{- $trans := .Get "trans" | default "clearquran" -}}
+{{- $hl := .Get "hl" | default "" -}}
+{{- $parts := split $v ":" -}}
+{{- $chapter := "" -}}
+{{- $verseSpec := "" -}}
+{{- if eq (len $parts) 2 -}}
+  {{- $chapter = index $parts 0 -}}
+  {{- $verseSpec = index $parts 1 -}}
+{{- else -}}
+  {{- errorf "Invalid format for 'v' parameter in quran shortcode: %q. Expected format: 'chapter:verse' or 'chapter:start-end'." $v -}}
+{{- end -}}
+
+{{- $chapterData := index (index .Site.Data.quran $trans) $chapter -}} {{/* <-- Use selected translation */}}
+
+{{- if not $chapterData -}}
+  {{- $expectedPath := printf "data/quran/%s/%s.json" $trans $chapter -}}
+  {{- errorf "Quran data not found for chapter %s. Expected file: %s" $chapter $expectedPath -}}
+{{- end -}}
+
+{{- $verse := int $verseSpec -}}
+
+{{- if le $verse 0 -}}
+  {{- errorf "Invalid verse number: %d" $verse -}}
+{{- end -}}
+
+{{- $hlStart := 0 -}}
+{{- $hlEnd := 0 -}}
+{{- $hasHighlight := false -}}
+
+{{- if $hl -}}
+  {{- $hlParts := split $hl "-" -}}
+  {{- if eq (len $hlParts) 2 -}}
+    {{- $hlStart = int (index $hlParts 0) -}}
+    {{- $hlEnd = int (index $hlParts 1) -}}
+    {{- $hasHighlight = true -}}
+    {{- if le $hlStart 0 -}}
+      {{- errorf "Invalid highlight start position: %d" $hlStart -}}
+    {{- end -}}
+    {{- if lt $hlEnd $hlStart -}}
+      {{- errorf "Highlight end position %d cannot be less than start position %d" $hlEnd $hlStart -}}
+    {{- end -}}
+  {{- else -}}
+    {{- errorf "Invalid highlight format: %q. Expected format: 'start-end'." $hl -}}
+  {{- end -}}
+{{- end -}}
+
+<span class="quran-inline">
+  {{- $verseText := index $chapterData (string $verse) -}}
+  {{- if $verseText -}}
+    {{- if $hasHighlight -}}
+      {{- $textLen := len $verseText -}}
+      {{- if gt $hlEnd $textLen -}}
+      {{- errorf "Highlight end position %d exceeds verse length %d" $hlEnd $textLen -}}
+      {{- end -}}
+      {{- $beforeText := substr $verseText 0 (sub $hlStart 1) -}}
+      {{- $highlightText := substr $verseText (sub $hlStart 1) (sub $hlEnd $hlStart -1) -}}
+      {{- $afterText := substr $verseText (sub $hlEnd 1) -}}
+      <em>(v {{ $v }}) : <span class="text-decoration-underline">{{ $beforeText | safeHTML }}<mark class="bg-warning text-dark">{{ $highlightText | safeHTML }}</mark>{{ $afterText | safeHTML }}</span></em>
+    {{- else -}}
+      <em>(v {{ $v }}) : <span class="text-decoration-underline">{{ $verseText | safeHTML }}</span></em>
+    {{- end -}}
+  {{- else -}}
+    <em>Verse {{ $chapter }}:{{ $verse }} not found.</em>
+  {{- end -}}
+</span>

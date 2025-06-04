@@ -1,7 +1,7 @@
 +++
 title = 'Quran'
-date = 2023-01-01T08:30:00-07:00
-draft = false
+date = 2024-05-01
+weight = 1
 +++
 
 Quran Study
