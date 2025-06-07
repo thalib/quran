@@ -56,7 +56,7 @@
       {{- $beforeText := substr $verseText 0 (sub $hlStart 1) -}}
       {{- $highlightText := substr $verseText (sub $hlStart 1) (sub $hlEnd $hlStart -1) -}}
       {{- $afterText := substr $verseText (sub $hlEnd 1) -}}
-      <em>(v {{ $v }}) : <span class="text-decoration-underline">{{ $beforeText | safeHTML }}<mark class="bg-warning text-dark">{{ $highlightText | safeHTML }}</mark>{{ $afterText | safeHTML }}</span></em>
+      <em>(v {{ $v }}) : <span class="text-decoration-underline">{{ $beforeText | safeHTML }}<mark class="bg-primary text-light">{{ $highlightText | safeHTML }}</mark>{{ $afterText | safeHTML }}</span></em>
     {{- else -}}
       <em>(v {{ $v }}) : <span class="text-decoration-underline">{{ $verseText | safeHTML }}</span></em>
     {{- end -}}
