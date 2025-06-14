@@ -2,6 +2,7 @@
 title = 'Surah 1: The Opening (Al-Fatiha)'
 date = 2025-04-29
 tags = ['dua']
+weight = 1000
 +++
 
 This is the first chapter of the Holy Quran. It consists of 7 verses.
