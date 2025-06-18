@@ -54,11 +54,11 @@
       {{- errorf "Highlight end position %d exceeds verse length %d" $hlEnd $textLen -}}
       {{- end -}}
       {{- $beforeText := substr $verseText 0 (sub $hlStart 1) -}}
-      {{- $highlightText := substr $verseText (sub $hlStart 1) (sub $hlEnd $hlStart -1) -}}
-      {{- $afterText := substr $verseText (sub $hlEnd 1) -}}
-      <em>(v {{ $v }}) : <span class="text-decoration-underline">{{ $beforeText | safeHTML }}<mark class="bg-primary text-light">{{ $highlightText | safeHTML }}</mark>{{ $afterText | safeHTML }}</span></em>
+      {{- $highlightText := substr $verseText (sub $hlStart 1) (add (sub $hlEnd $hlStart) 1) -}}
+      {{- $afterText := substr $verseText $hlEnd -}}
+      (v {{ $v }}) : <span>{{ $beforeText | safeHTML }}<em class="text-decoration-underline"><mark>{{ $highlightText | safeHTML }}</mark></em>{{ $afterText | safeHTML }}</span>
     {{- else -}}
-      <em>(v {{ $v }}) : <span class="text-decoration-underline">{{ $verseText | safeHTML }}</span></em>
+      (v {{ $v }}) : <span>{{ $verseText | safeHTML }}</span>
     {{- end -}}
   {{- else -}}
     <em>Verse {{ $chapter }}:{{ $verse }} not found.</em>

@@ -9,18 +9,14 @@
       {{ with .Params.author }}
         <span class="author" itemprop="author">{{ . }}</span>
       {{ end }}
+      ,{{ partial "list/terms.html" (dict "taxonomy" "tags" "page" .) }}
     </div>
   </header>
 
-  <section class="row pt-3">
+  <section class="row pt-3 border-bottom">
     <div class="col" itemprop="articleBody">
       {{ .Content }}
     </div>
   </section>
-  <footer class="row">
-    <div class="col">
-      {{ partial "list/terms.html" (dict "taxonomy" "tags" "page" .) }}
-    </div>
-  </footer>
 </article>
 {{ end }}
