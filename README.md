@@ -135,3 +135,8 @@ Arabic text content here
 آمَنُوا
 {{< /wfw >}}
 ```
+
+## Refrence
+
+- https://quran.gtaf.org/1
+- https://quran.com/al-fatihah/1/tafsirs
