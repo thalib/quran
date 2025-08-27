@@ -1,0 +1,48 @@
+{{ define "main" }}
+<article class="container" itemscope itemtype="http://schema.org/Article">
+  <header class="row">
+    <div class="col">
+      <h1 itemprop="headline">{{ .Title }}</h1>
+      {{ $dateMachine := .Date | time.Format "2006-01-02T15:04:05-07:00" }}
+      {{ $dateHuman := .Date | time.Format ":date_long" }}
+      <time datetime="{{ $dateMachine }}" itemprop="datePublished" aria-label="Published on {{ $dateHuman }}">{{ $dateHuman }}</time>
+      {{ with .Params.author }}
+        <span class="author" itemprop="author">{{ . }}</span>
+      {{ end }}
+      ,{{ partial "list/terms.html" (dict "taxonomy" "tags" "page" .) }}
+    </div>
+  </header>
+
+  <section class="row pt-3 border-bottom">
+    <div class="col" itemprop="articleBody">
+      {{ .Content }}
+    </div>
+  </section>
+</article>
+
+<nav aria-label="Page navigation" class="container mt-4">
+  <div class="row">
+    <div class="col">
+      <ul class="pagination justify-content-between">
+        {{ with .PrevInSection }}
+        <li class="page-item">
+          <a class="page-link d-flex align-items-center" href="{{ .RelPermalink }}" rel="prev">
+            <span aria-hidden="true">&laquo;</span>
+            <span class="ms-2">{{ .Params.surah }}:{{ .Params.ayah }}</span>
+          </a>
+        </li>
+        {{ end }}
+
+        {{ with .NextInSection }}
+        <li class="page-item">
+          <a class="page-link d-flex align-items-center" href="{{ .RelPermalink }}" rel="next">
+            <span class="me-2">{{ .Params.surah }}:{{ .Params.ayah }}</span>
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+        {{ end }}
+      </ul>
+    </div>
+  </div>
+</nav>
+{{ end }}

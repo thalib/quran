@@ -27,7 +27,7 @@ Exception: None
     {{ range $paginator.Pages }}
     <div class="row">
       <div class="col-auto">
-        <a href="{{ .RelPermalink }}" class="h4 text-decoration-none">{{ .LinkTitle }}</a>
+        <a href="{{ .RelPermalink }}" class="text-decoration-none">{{ .Params.surah }}:{{ .Params.ayah }}</a>
       </div>
       <div class="col">
         {{ .Content }}
