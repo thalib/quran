@@ -140,3 +140,4 @@ Arabic text content here
 
 - https://quran.gtaf.org/1
 - https://quran.com/al-fatihah/1/tafsirs
+- https://quran.com/al-baqarah/65/tafsirs
