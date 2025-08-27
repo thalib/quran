@@ -1,6 +1,7 @@
 .hugo_build.lock
 .vscode
+.devdbrc
 public/
 resources/
 out/
-.devdbrc
+quranx/
