@@ -1,0 +1,85 @@
+{{/*
+Partial: pagination.html
+Purpose: Renders compact Bootstrap 5 pagination navigation for paginated content
+Params:
+  - $paginator (required): Hugo paginator object from .Paginate
+Usage: {{ partial "pagination.html" $paginator }}
+Dependencies: Bootstrap 5.3 pagination classes
+Rules: Only displays if total pages > 1. Shows: First | Prev | ±3 pages | Next | Last
+Exception: None
+*/}}
+
+{{ if gt .TotalPages 1 }}
+<nav aria-label="Page navigation" class="mt-5">
+  <ul class="pagination justify-content-center">
+    
+    {{/* First page link */}}
+    {{ if ne .PageNumber 1 }}
+    <li class="page-item">
+      <a class="page-link" href="{{ .First.URL }}" aria-label="First page">First</a>
+    </li>
+    {{ end }}
+    
+    {{/* Previous page link */}}
+    {{ if .HasPrev }}
+    <li class="page-item">
+      <a class="page-link" href="{{ .Prev.URL }}" aria-label="Previous page">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+    {{ end }}
+    
+    {{/* Page numbers with ±3 range */}}
+    {{ $currentPage := .PageNumber }}
+    {{ $totalPages := .TotalPages }}
+    {{ $startPage := sub $currentPage 3 }}
+    {{ $endPage := add $currentPage 3 }}
+    
+    {{/* Adjust range to stay within bounds */}}
+    {{ if lt $startPage 1 }}{{ $startPage = 1 }}{{ end }}
+    {{ if gt $endPage $totalPages }}{{ $endPage = $totalPages }}{{ end }}
+    
+    {{/* Show ellipsis if there's a gap from start */}}
+    {{ if gt $startPage 1 }}
+    <li class="page-item disabled">
+      <span class="page-link">…</span>
+    </li>
+    {{ end }}
+    
+    {{/* Show page numbers in range */}}
+    {{ range seq $startPage $endPage }}
+    <li class="page-item {{ if eq . $currentPage }}active{{ end }}">
+      {{ if eq . $currentPage }}
+      <span class="page-link">{{ . }}</span>
+      {{ else }}
+      <a class="page-link" href="{{ (index $.Pagers (sub . 1)).URL }}">{{ . }}</a>
+      {{ end }}
+    </li>
+    {{ end }}
+    
+    {{/* Show ellipsis if there's a gap to end */}}
+    {{ if lt $endPage $totalPages }}
+    <li class="page-item disabled">
+      <span class="page-link">…</span>
+    </li>
+    {{ end }}
+    
+    {{/* Next page link */}}
+    {{ if .HasNext }}
+    <li class="page-item">
+      <a class="page-link" href="{{ .Next.URL }}" aria-label="Next page">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+    {{ end }}
+    
+    {{/* Last page link */}}
+    {{ if ne .PageNumber .TotalPages }}
+    <li class="page-item">
+      <a class="page-link" href="{{ .Last.URL }}" aria-label="Last page">Last</a>
+    </li>
+    {{ end }}
+    
+  </ul>
+</nav>
+{{ end }}
