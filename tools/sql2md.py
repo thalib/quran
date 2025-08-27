@@ -73,7 +73,7 @@ def extract_tags_from_text(text: str) -> List[str]:
     return sorted(list(tags))
 
 
-def create_markdown_content(sura: int, ayah: int, text: str, date_str: str) -> str:
+def create_markdown_content(sura: int, ayah: int, text: str, date_str: str, row_count: int) -> str:
     """
     Create markdown content with Hugo front matter.
     
@@ -82,6 +82,7 @@ def create_markdown_content(sura: int, ayah: int, text: str, date_str: str) -> s
         ayah: Ayah number
         text: Verse text
         date_str: Date string in YYYY-MM-DD format
+        row_count: Current row number (1-based index)
         
     Returns:
         Complete markdown content with front matter
@@ -92,7 +93,8 @@ def create_markdown_content(sura: int, ayah: int, text: str, date_str: str) -> s
     front_matter = f"""+++
 title = 'Surah {sura}, Verses {ayah}'
 date = '{date_str}'
-weight = {ayah}
+weight = {row_count}
+ayah = {ayah}
 tags = [{tags_str}]
 +++
 
@@ -136,7 +138,7 @@ def export_verses_to_markdown(db_path: str, output_dir: str = "out") -> None:
         print(f"Found {len(verses)} verses to export...")
         
         exported_count = 0
-        for sura, ayah, text in verses:
+        for row_index, (sura, ayah, text) in enumerate(verses, 1):
             try:
                 # Create surah directory
                 surah_dir = output_path / str(sura)
@@ -146,7 +148,7 @@ def export_verses_to_markdown(db_path: str, output_dir: str = "out") -> None:
                 md_file = surah_dir / f"{ayah}.md"
                 
                 # Generate markdown content
-                markdown_content = create_markdown_content(sura, ayah, text, today)
+                markdown_content = create_markdown_content(sura, ayah, text, today, row_index)
                 
                 # Write to file
                 with open(md_file, 'w', encoding='utf-8') as f:
