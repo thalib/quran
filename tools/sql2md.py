@@ -94,6 +94,7 @@ def create_markdown_content(sura: int, ayah: int, text: str, date_str: str, row_
 title = 'Surah {sura}, Verses {ayah}'
 date = '{date_str}'
 weight = {row_count}
+surah = {sura}
 ayah = {ayah}
 tags = [{tags_str}]
 +++
