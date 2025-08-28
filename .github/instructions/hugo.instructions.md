@@ -14,8 +14,8 @@ These standards define maintainable, performant, and SEO-optimized Hugo template
 - Organize layouts by type: **base, section, page, taxonomy, term, partials**.
 - Keep reusable code in:
 
-  - `hugo/layouts/_partials/` → UI components
-  - `hugo/layouts/_shortcodes/` → reusable content blocks
+  - `layouts/_partials/` → UI components
+  - `layouts/_shortcodes/` → reusable content blocks
 
 - Each partial must include a **header comment** with params and example usage, for commenting use as below.
   ```
@@ -52,24 +52,24 @@ These standards define maintainable, performant, and SEO-optimized Hugo template
 - **Component-driven**: document UI states (default, hover, focus, active, disabled, loading, error).
 - **Light theme only** with WCAG AA/AAA contrast.
 
-- **Component class and inline-style policy**: Use ONLY Bootstrap 5.3 utilities and existing classes from `hugo/assets/css/main.css` for all styling. Custom classes and inline styles are strictly prohibited. This enforces consistency, maintainability, and prevents style bloat.
+- **Component class and inline-style policy**: Use ONLY Bootstrap 5.3 utilities and existing classes from `assets/css/main.css` for all styling. Custom classes and inline styles are strictly prohibited. This enforces consistency, maintainability, and prevents style bloat.
 
   - ✅ **Allowed**: Bootstrap 5.3 utilities (`d-flex`, `text-center`, `btn`, `container-fluid`, etc.)
-  - ✅ **Allowed**: Existing classes already defined in `hugo/assets/css/main.css`
+  - ✅ **Allowed**: Existing classes already defined in `assets/css/main.css`
   - ❌ **Prohibited**: Creating new custom classes in templates or partials
   - ❌ **Prohibited**: Any inline styles (`style=""` attributes)
-  - ❌ **Prohibited**: Adding new CSS classes anywhere except `hugo/assets/css/main.css` (and only when explicitly instructed by user)
+  - ❌ **Prohibited**: Adding new CSS classes anywhere except `assets/css/main.css` (and only when explicitly instructed by user)
 
-- **Aspect ratios and advanced styling**: For complex styling needs (aspect ratios, transforms, animations), use existing CSS classes from `hugo/assets/css/main.css` or request user to add new utilities there. Bootstrap's aspect ratio utilities (`ratio`, `ratio-1x1`, `ratio-16x9`) should be preferred when available.
+- **Aspect ratios and advanced styling**: For complex styling needs (aspect ratios, transforms, animations), use existing CSS classes from `assets/css/main.css` or request user to add new utilities there. Bootstrap's aspect ratio utilities (`ratio`, `ratio-1x1`, `ratio-16x9`) should be preferred when available.
 
 ## Anti-patterns / Don'ts
 
 - **CSS Policy**: Follow the strict component class and inline-style policy outlined above.
-- NEVER create or modify files under `hugo/static`. The `hugo/static` directory contains generated or published artifacts and must be treated as an output/deployment area, not a source location for development.
-- Create source JavaScript files only under `hugo/assets/js` (use `.js` files there). Do not add or edit JS files in `hugo/static`.
-- Create source CSS files only under `hugo/assets/css` (use `.css` files there). Do not add or edit CSS files in `hugo/static`.
-- Use Hugo Pipes (for example `resources.Get`, `resources.Minify`, `resources.Fingerprint`) to process assets from `hugo/assets` and reference the processed, fingerprinted outputs in templates.
-- When in doubt, prefer adding assets under `hugo/assets` or in page bundles inside `content/` instead of modifying `hugo/static`.
+- NEVER create or modify files under `static`. The `static` directory contains generated or published artifacts and must be treated as an output/deployment area, not a source location for development.
+- Create source JavaScript files only under `assets/js` (use `.js` files there). Do not add or edit JS files in `static`.
+- Create source CSS files only under `assets/css` (use `.css` files there). Do not add or edit CSS files in `static`.
+- Use Hugo Pipes (for example `resources.Get`, `resources.Minify`, `resources.Fingerprint`) to process assets from `assets` and reference the processed, fingerprinted outputs in templates.
+- When in doubt, prefer adding assets under `assets` or in page bundles inside `content/` instead of modifying `static`.
 - Don't rely on JavaScript to render essential content or navigation. Ensure core content and navigation work without JS.
 - Don't include large, render-blocking third-party scripts synchronously on the page (analytics, tag managers, A/B tools). Load them async/defer or via Consent Manager.
 - Don't ship unoptimized images. Avoid full-size images in markup; prefer Hugo image processing (`.Resize`, `.Fit`, `.Format`) and provide srcset/sizes and next-gen formats.
@@ -94,7 +94,7 @@ These standards define maintainable, performant, and SEO-optimized Hugo template
 Hugo Pipes example (build, minify, fingerprint CSS)
 
 ```html
-{{/* in hugo/layouts/_partials/head.html */}} {{ $styles := resources.Get
+{{/* in layouts/_partials/head.html */}} {{ $styles := resources.Get
 "css/main.css" | resources.Minify | resources.Fingerprint }}
 <link
   rel="stylesheet"
@@ -106,9 +106,9 @@ Hugo Pipes example (build, minify, fingerprint CSS)
 ## Images & Media
 
 - Generate **multiple sizes & next-gen formats (WebP/AVIF)** with Hugo image processing.
-- Use `hugo/layouts/_partials/gen/webpConverter.html` for WebP conversion with fallbacks.
+- Use `layouts/_partials/gen/webpConverter.html` for WebP conversion with fallbacks.
 - Provide `srcset`/`sizes` for product and content images.
-- to get product image use `hugo/layouts/_partials/gen/productImage.html`
+- to get product image use `layouts/_partials/gen/productImage.html`
 - Use **LQIP/dominant color placeholders** for perceived speed.
 - Enforce **image size budgets**; serve from CDN with caching headers.
 
