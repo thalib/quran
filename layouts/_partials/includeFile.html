@@ -1,0 +1,18 @@
+{{/*
+Include a page's content with optional title
+
+Usage: 
+{{ partial "file/includeFile.html" (dict "page" "path/to/page.md" "title" "Optional Title") }}
+*/}}
+{{- $page := .page -}}
+{{- $title := .title -}}
+{{- if fileExists $page -}}
+    {{- if $title -}}
+        <h2 id="{{ $title | urlize }}" class="fs-4">{{ $title }} <a href="#{{ $title | urlize }}" class="hover_link text-decoration-none">#</a></h2>
+    {{- end -}}
+    {{- $old := "<table>" -}}
+    {{- $new := "<table class=\"table table-sm\">" -}}
+    {{- replace (readFile $page | markdownify ) $old $new | safeHTML -}}
+{{- else -}}
+    {{ warnf "includeFile: file '%s' does not exist" $page }}
+{{- end -}}

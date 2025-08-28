@@ -14,6 +14,13 @@
       </div>
       <div class="col">
         {{ .Content }}
+
+        {{ $filePath := printf "notes/%d/%d.md" .Params.surah .Params.ayah }}
+        {{ if fileExists $filePath}}
+        <div class="m-2 p-2 ps-3 border-start border-5 border-info bg-secondary">
+          {{ partial "includeFile.html" (dict "page" $filePath) }}
+        </div>
+        {{ end }}
       </div>
     </div>
     </div>
@@ -23,7 +30,7 @@
 <nav aria-label="Page navigation" class="container mt-4">
   <div class="row">
     <div class="col">
-      <ul class="pagination justify-content-between">
+      <ul class="pagination justify-content-start">
         {{ $currentSurah := .Params.surah }}
         {{ $currentAyah := .Params.ayah }}
         {{ $parentSection := .Parent }}
