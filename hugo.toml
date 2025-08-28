@@ -1,23 +1,41 @@
 baseURL = 'https://quaran.org/'
-languageCode = 'en-US'
 title = 'Quran Study'
-theme = 'book'
+
+# Language & SEO
+languageCode = 'en-US'
+defaultContentLanguage = "en"
+enableRobotsTXT = true
+pluralizeListTitles = false
+printPathWarnings = true
+uglyURLs = false
+
+ignoreFiles = [
+  "/content/quran/([1-9]|[1-9][0-9]|100)/.*"
+]
+
+[taxonomies]
+  tag = 'tags'
+  surah = 'surah'
 
 [menus]
   [[menus.main]]
     name = 'Quran'
     pageRef = '/quran'
+    weight = 10
+  [[menus.main]]
+    name = 'Surah'
+    pageRef = '/surah'
     weight = 20
 
   [[menus.main]]
     name = 'Salah'
     pageRef = '/salah'
-    weight = 21
+    weight = 30
 
   [[menus.main]]
     name = 'Tags'
     pageRef = '/tags'
-    weight = 30
+    weight = 40
 
 [module]
   [module.hugoVersion]

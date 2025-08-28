@@ -1,11 +1,21 @@
 # quran
 
-## Prompts 
+## Prompts
 
 ### Proofread
 
 ```
 Proofread the selected text for spelling and grammar errors. Additionally, identify and remove any redundant sentences or phrases, and rephrase for clarity and conciseness.
+```
+
+## Config
+
+folders with names from 1 to 100 within the quran directory will be ignored by Hugo
+
+```toml
+ignoreFiles = [
+"/content/quran/([1-9]|[1-9][0-9]|100)/.*"
+]
 ```
 
 ## shortcodes
@@ -70,7 +80,7 @@ Proofread the selected text for spelling and grammar errors. Additionally, ident
 {{< quranhl v="2:255" trans="sahih" hl="15-35" >}}
 ```
 
-### arabic 
+### arabic
 
 ```
 {{< arabic color="light" title="Chapter Title" >}}
@@ -110,7 +120,6 @@ Arabic text content here
 كلمة٣
 {{< /wfw >}}
 ```
-
 
 ```
 <!-- Basic word-for-word translation -->
