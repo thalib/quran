@@ -7,7 +7,9 @@ Params:
 - .Pages: Collection of pages to display
 Usage: Automatically used for section pages (e.g., /articles/, /quran/)
 Dependencies: Bootstrap 5.3, pagination.html partial
-Rules: Displays 50 items per page with full content preview
+Rules:
+- Displays 50 items per page with full content preview
+- Limit the pages to within current surah
 Exception: None
 */}}
 
@@ -22,15 +24,18 @@ Exception: None
     </div>
   </header>
 
-  <section aria-label="Article listing">
+  <section aria-label="Quran verses listing">
     {{ $paginator := .Paginate .Pages 50 }}
     {{ range $paginator.Pages }}
-    <div class="row">
+    <div class="row border-bottom mb-2">
       <div class="col-auto">
-        <a href="{{ .RelPermalink }}" class="text-decoration-none">{{ .Params.surah }}:{{ .Params.ayah }}</a>
+        <a href="{{ .RelPermalink }}" class="text-decoration-none fw-bold text-primary"
+          aria-label="Go to Surah {{ .Params.surah }}, Ayah {{ .Params.ayah }}">
+          {{ .Params.surah }}:{{ .Params.ayah }}
+        </a>
       </div>
       <div class="col">
-        {{ .Content }}
+        <div class="lh-lg">{{ .Content }}</div>
       </div>
     </div>
     {{ end }}

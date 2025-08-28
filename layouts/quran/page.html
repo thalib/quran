@@ -2,7 +2,7 @@
 <article class="container" itemscope itemtype="http://schema.org/Article">
   <header class="row">
     <div class="col">
-      <h1 itemprop="headline">{{ .Params.surah }}:{{ .Params.ayah }}</h1>
+      <h1 itemprop="headline">Surah {{ .Params.surah }}: Ayah {{ .Params.ayah }}</h1>
     </div>
   </header>
 
@@ -24,7 +24,26 @@
   <div class="row">
     <div class="col">
       <ul class="pagination justify-content-between">
-        {{ with .PrevInSection }}
+        {{ $currentSurah := .Params.surah }}
+        {{ $currentAyah := .Params.ayah }}
+        {{ $parentSection := .Parent }}
+        {{ $surahPages := where $parentSection.Pages ".Params.surah" $currentSurah }}
+        {{ $surahPages := sort $surahPages ".Params.ayah" }}
+        
+        {{ $prevPage := "" }}
+        {{ $nextPage := "" }}
+        {{ range $index, $page := $surahPages }}
+          {{ if eq $page.Params.ayah $currentAyah }}
+            {{ if gt $index 0 }}
+              {{ $prevPage = index $surahPages (sub $index 1) }}
+            {{ end }}
+            {{ if lt $index (sub (len $surahPages) 1) }}
+              {{ $nextPage = index $surahPages (add $index 1) }}
+            {{ end }}
+          {{ end }}
+        {{ end }}
+        
+        {{ with $prevPage }}
         <li class="page-item">
           <a class="page-link d-flex align-items-center" href="{{ .RelPermalink }}" rel="prev">
             <span aria-hidden="true">&laquo;</span>
@@ -33,7 +52,7 @@
         </li>
         {{ end }}
 
-        {{ with .NextInSection }}
+        {{ with $nextPage }}
         <li class="page-item">
           <a class="page-link d-flex align-items-center" href="{{ .RelPermalink }}" rel="next">
             <span class="me-2">{{ .Params.surah }}:{{ .Params.ayah }}</span>

@@ -150,3 +150,4 @@ Arabic text content here
 - https://quran.gtaf.org/1
 - https://quran.com/al-fatihah/1/tafsirs
 - https://quran.com/al-baqarah/65/tafsirs
+- https://en.wikipedia.org/wiki/List_of_chapters_in_the_Quran

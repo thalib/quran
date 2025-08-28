@@ -2,9 +2,9 @@
 Template: section.html
 Purpose: Default section layout for listing pages with pagination
 Params:
-  - .Title: Section title
-  - .Content: Optional section description/content
-  - .Pages: Collection of pages to display
+- .Title: Section title
+- .Content: Optional section description/content
+- .Pages: Collection of pages to display
 Usage: Automatically used for section pages (e.g., /articles/, /quran/)
 Dependencies: Bootstrap 5.3, pagination.html partial
 Rules: Displays 50 items per page with full content preview
@@ -21,7 +21,7 @@ Exception: None
       {{ end }}
     </div>
   </header>
-  
+
   <section aria-label="Article listing">
     {{ $paginator := .Paginate .Pages 50 }}
     {{ range $paginator.Pages }}
@@ -35,7 +35,7 @@ Exception: None
         {{ .Content }}
       </div>
     </div>
-      {{ end }}
+    {{ end }}
   </section>
 
   {{ partial "pagination.html" $paginator }}

@@ -1,43 +1,98 @@
+{{/*
+Template: taxonomy.html
+Description: Layout for taxonomy listing pages (tags, categories, etc.)
+
+Features:
+- Responsive tag cloud with dynamic font sizing
+- Bootstrap 5.3 styling with hover effects
+- Item count badges for taxonomy terms
+- Empty state handling
+- Accessibility optimized with ARIA labels
+
+Usage: Automatically used for taxonomy list pages (/tags/, /categories/, etc.)
+
+Dependencies:
+- Bootstrap 5.3 CSS framework
+- Hugo template functions
+
+Rules:
+- Do not use custom classes or js
+- JSON-LD structured data not needed for this page
+
+*/}}
+
 {{ define "main" }}
 <main class="container py-5" role="main">
   <header class="row">
     <div class="col-12">
-      <h1 class="py-2 mb-4 border-bottom border-5 border-primary">{{ .Title }}</h1>
+      <h1 class="py-2 mb-4 border-bottom border-5 border-primary">{{ .Title }} <span class="fs-4 text-muted">({{ len
+          .Pages }})</span></h1>
       {{ if .Content }}
       <div class="lead mb-4">{{ .Content }}</div>
       {{ end }}
     </div>
   </header>
-  
-  <section class="tag-cloud" aria-label="Taxonomy listing" itemscope itemtype="https://schema.org/CollectionPage">
-    <div class="col-12">
-      <meta itemprop="name" content="{{ .Title }}">
-      <meta itemprop="description" content="{{ .Summary | default .Title }}">
-      
-      <div class="d-flex flex-wrap gap-2 justify-content-start">
-        {{ range .Pages }}
-        {{ $count := len .Pages }}
-        {{ $fontSize := "fs-6" }}
-        {{ if gt $count 10 }}{{ $fontSize = "fs-3" }}{{ else if gt $count 5 }}{{ $fontSize = "fs-4" }}{{ else if gt $count 2 }}{{ $fontSize = "fs-5" }}{{ end }}
-        <a href="{{ .RelPermalink }}" 
-           class="badge border border-primary text-primary text-decoration-none {{ $fontSize }} py-2 px-3 rounded-pill hover-bg-primary" 
-           itemprop="url"
-           itemscope 
-           itemtype="https://schema.org/Article"
-           title="{{ .Summary | default .LinkTitle }}">
-          <span itemprop="headline">{{ .LinkTitle }}</span>
-          <meta itemprop="author" content="{{ .Site.Author.name | default .Site.Title }}">
-          <meta itemprop="publisher" content="{{ .Site.Title }}">
-          {{ if .Date }}
-          <meta itemprop="datePublished" content="{{ .Date.Format "2006-01-02" }}">
+
+  {{ if eq .Data.Singular "surah" }}
+  {{/* Surah table layout */}}
+  {{ if .Pages }}
+  <section aria-label="Surah listing">
+    <div class="table-responsive">
+      <table class="table table-sm table-hover">
+        <thead>
+          <tr>
+            <th scope="col" class="text-center">#</th>
+            <th scope="col">Title</th>
+            <th scope="col">Meaning (en)</th>
+            <th scope="col" class="text-center">Verses</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{ range .Pages }}
+          <tr class="align-middle">
+            <td class="text-center text-primary">
+              <a href="{{ .RelPermalink }}" class="text-decoration-none">{{ .Params.weight }}</a>
+            </td>
+            <td>
+              <a href="{{ .RelPermalink }}" class="text-decoration-none">{{ .Title }}</a>
+            </td>
+            <td class="text-muted fst-italic">{{ .Params.en }}</td>
+            <td class="text-center">{{ len .Pages }}</td>
+          </tr>
           {{ end }}
-          {{ if .Summary }}
-          <meta itemprop="description" content="{{ .Summary }}">
-          {{ end }}
-        </a>
-        {{ end }}
-      </div>
+        </tbody>
+      </table>
     </div>
   </section>
+  {{ else }}
+  <section aria-label="No content">
+    <div class="text-center py-5">
+      <p class="text-muted">No surahs found in this section.</p>
+    </div>
+  </section>
+  {{ end }}
+  {{ else }} {{/* if not surah */}}
+  {{/* Tags and other taxonomies - optimized tag cloud */}}
+  {{ if .Pages }}
+  <section aria-label="Tag cloud">
+    <div class="d-flex flex-wrap gap-2 justify-content-start">
+      {{ range .Pages }}
+      <a href="{{ .RelPermalink }}"
+        class="badge border border-primary text-decoration-none py-2 px-3 rounded-pill d-inline-flex align-items-center">
+        {{ .LinkTitle }}
+        <span class="ms-2 small text-muted rounded-pill">({{ len .Pages }})</span>
+      </a>
+      {{ end }}
+    </div>
+  </section>
+  {{ else }}
+  <section aria-label="No content">
+    <div class="text-center py-5">
+      <p class="text-muted">No {{ .Data.Plural }} found.</p>
+    </div>
+  </section>
+  {{ end }}
+  {{ end }} {{/* if not surah */}}
+
 </main>
 {{ end }}
