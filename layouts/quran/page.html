@@ -17,7 +17,7 @@
 
         {{ $filePath := printf "notes/%d/%d.md" .Params.surah .Params.ayah }}
         {{ if fileExists $filePath}}
-        <div class="m-2 p-2 ps-3 border-start border-5 border-info bg-secondary">
+        <div class="m-2 p-2 ps-3 border-start border-5 border-info">
           {{ partial "includeFile.html" (dict "page" $filePath) }}
         </div>
         {{ end }}

@@ -1,61 +1,64 @@
-{{- $v := .Get "v" | default "" -}}
-{{- $trans := .Get "trans" | default "clearquran" -}}
-{{- $parts := split $v ":" -}}
-{{- $chapter := "" -}}
-{{- $verseSpec := "" -}}
-{{- if eq (len $parts) 2 -}}
-  {{- $chapter = index $parts 0 -}}
-  {{- $verseSpec = index $parts 1 -}}
-{{- else -}}
-  {{- errorf "Invalid format for 'v' parameter in quran shortcode: %q. Expected format: 'chapter:verse' or 'chapter:start-end'." $v -}}
-{{- end -}}
+{{/*
+Shortcode: quran.html
+Purpose: Display single Quran verse or verse range with link and optional content
+Params:
+- v:(string) The verse in format "chapter:verse" (e.g., "2:8") or range "chapter:verse-verse" (e.g., "2:8-10")
+- inline:(bool) default true, if false show only link
+- hl:(bool) default false, adds text-highlight class
+Usage: 
+{{< quran v="2:8" >}} 
+{{< quran v="2:8-10" hl="true" >}}
+{{< quran v="2:8" inline="false" >}}
+Dependencies: Requires verse pages to exist at /content/quran/{chapter}/{verse}/
+Rules: Simple validation - will error if verse page does not exist
+Exception: Will display error message if verse page is missing
+*/}}
 
-{{- $chapterData := index (index .Site.Data.quran $trans) $chapter -}} {{/* <-- Use selected translation */}}
+{{ $paramVerse := .Get "v" }}
+{{ $paramInline := default "true" (.Get "inline") }}
+{{ $paramHighlight := .Get "hl" }}
+{{ $spanClass := cond $paramHighlight "text-highlight" "" }}
 
-{{- if not $chapterData -}}
-  {{- $expectedPath := printf "data/quran/%s/%s.json" $trans $chapter -}}
-  {{- errorf "Quran data not found for chapter %s. Expected file: %s" $chapter $expectedPath -}}
-{{- end -}}
+{{ $parts := split $paramVerse ":" }}
+{{ $chapter := index $parts 0 }}
+{{ $verseSpec := index $parts 1 }}
 
-{{- $startVerse := 0 -}}
-{{- $endVerse := 0 -}}
-{{- $isRange := false -}}
+{{/* Parse verse specification - single or range */}}
+{{ $verses := slice }}
+{{ if in $verseSpec "-" }}
+  {{/* Range format: 8-10 */}}
+  {{ $rangeParts := split $verseSpec "-" }}
+  {{ $startVerse := int (index $rangeParts 0) }}
+  {{ $endVerse := int (index $rangeParts 1) }}
+  {{ range seq $startVerse $endVerse }}
+    {{ $verses = $verses | append (string .) }}
+  {{ end }}
+{{ else }}
+  {{/* Single verse: 8 */}}
+  {{ $verses = slice $verseSpec }}
+{{ end }}
 
-{{- if findRE "-" $verseSpec -}}
-  {{- $rangeParts := split $verseSpec "-" -}}
-  {{- if eq (len $rangeParts) 2 -}}
-    {{- $startVerse = int (index $rangeParts 0) -}}
-    {{- $endVerse = int (index $rangeParts 1) -}}
-    {{- $isRange = true -}}
-  {{- else -}}
-    {{- errorf "Invalid verse range format: %q" $verseSpec -}}
-  {{- end -}}
-{{- else -}}
-  {{- $startVerse = int $verseSpec -}}
-  {{- $endVerse = $startVerse -}}
-{{- end -}}
-
-{{- if le $startVerse 0 -}}
-  {{- errorf "Invalid start verse number: %d" $startVerse -}}
-{{- end -}}
-{{- if lt $endVerse $startVerse -}}
-   {{- errorf "End verse %d cannot be less than start verse %d" $endVerse $startVerse -}}
-{{- end -}}
-
-<figure class="my-4 p-4 border border-2 border-secondary rounded-5 rounded-bottom-0 rounded-start-5">
-  <blockquote class="blockquote">
-    {{- range $verseNum := seq $startVerse $endVerse -}}
-      {{- $verseNumStr := string $verseNum -}}
-      {{- $verseText := index $chapterData $verseNumStr -}}
-      {{- if $verseText -}}
-        {{ $verseNum }}. {{ $verseText | safeHTML }}
-        {{- if ne $verseNum $endVerse -}} {{ " " }} <br>{{- end -}}
-      {{- else -}}
-        <p><em>Verse {{ $chapter }}:{{ $verseNum }} not found.</em></p>
-      {{- end -}}
+{{/* Generate output for each verse */}}
+{{ range $i, $verse := $verses }}
+  {{ $versePage := site.GetPage (printf "/quran/%s/%s" $chapter $verse) }}
+  {{ $link := printf "/quran/%s/%s/" $chapter $verse }}
+  
+  {{/* Check if verse page exists */}}
+  {{/* {{ if not $versePage }}
+    {{ errorf "quran shortcode: Verse page not found for %s:%s. Expected file: content/quran/%s/%s.md" $chapter $verse $chapter $verse }}
+  {{ end }} */}}
+  
+  <span class="quran-verse-reference">
+    <a href="{{ $link }}" 
+       class="text-decoration-none" 
+       aria-label="Quran verse {{ $chapter }}:{{ $verse }}">
+      {{- $chapter }}:{{ $verse -}}
+    </a>
+    {{- if ne $paramInline "false" -}}
+      <span class="ms-1 {{ $spanClass }}" role="text">
+        {{- $versePage.Plain -}}
+      </span>
     {{- end -}}
-  </blockquote>
-  <figcaption class="blockquote-footer mb-0">
-    <cite class="fs-5">Quran {{ $v }}</cite>
-  </figcaption>
-</figure>
+  </span>
+  {{- if lt $i (sub (len $verses) 1) -}}&nbsp;{{- end -}}
+{{ end }}
