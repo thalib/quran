@@ -11,4 +11,4 @@ summary = 'Learn about the women of paradise as described in Islamic teachings a
 
 
 
-The phenomenon that the Quran discusses in verses {{<quranhl v="73:17" hl="83-143">}} occurs among the children of Gaza due to extreme fear from bombing and the killing of Gazan children by evil Israeli forces.
+The phenomenon that the Quran discusses in verses {{<quran v="73:17" hl="true">}} occurs among the children of Gaza due to extreme fear from bombing and the killing of Gazan children by evil Israeli forces.
