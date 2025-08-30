@@ -23,7 +23,8 @@ from typing import List, Set
 
 def extract_tags_from_text(text: str) -> List[str]:
     """
-    Extract meaningful tags from verse text.
+    Extract meaningful tags from verse text by including all words except common function words,
+    plus custom semantic mappings.
     
     Args:
         text: The verse text to analyze
@@ -31,44 +32,103 @@ def extract_tags_from_text(text: str) -> List[str]:
     Returns:
         List of tags extracted from the text
     """
-    # Common meaningful words/concepts in Quran verses
-    common_concepts = {
-        'allah', 'god', 'lord', 'prayer', 'believe', 'believers', 'faith',
-        'paradise', 'garden', 'heaven', 'fire', 'hell', 'punishment',
-        'mercy', 'forgiveness', 'guidance', 'revelation', 'prophet',
-        'messenger', 'book', 'quran', 'scripture', 'signs', 'verses',
-        'righteous', 'good', 'evil', 'sin', 'worship', 'prostrate',
-        'angels', 'devil', 'satan', 'creation', 'earth', 'sky', 'heavens',
-        'day', 'judgment', 'resurrection', 'death', 'life', 'world',
-        'knowledge', 'wisdom', 'truth', 'falsehood', 'guidance', 'astray',
-        'charity', 'poor', 'orphan', 'needy', 'wealth', 'provision',
-        'family', 'parents', 'children', 'marriage', 'divorce',
-        'people', 'nation', 'community', 'humanity', 'mankind',
-        'covenant', 'promise', 'oath', 'testimony', 'witness',
-        'repentance', 'forgive', 'sin', 'transgression', 'wrong'
+    # Function words and common verbs to exclude from tags
+    excluded_words = [
+        # Personal Pronouns
+        "he", "she", "it", "him", "her", "his", "hers", "its",
+        "they", "them", "their", "theirs", "i", "me", "my", "mine",
+        "you", "your", "yours", "we", "us", "our", "ours",
+        
+        # Demonstrative Pronouns
+        "this", "that", "these", "those", "here", "there", "now", "then",
+        
+        # Question Words (Interrogatives)
+        "who", "whom", "whose", "what", "which", "when", "where", "why", "how",
+        "whether", "if",
+        
+        # Coordinating Conjunctions
+        "and", "but", "or", "for", "nor", "so", "yet",
+        
+        # Subordinating Conjunctions
+        "because", "since", "as", "although", "though", "while", "before", "after",
+        "unless", "until", "wherever", "whenever",
+        
+        # Prepositions
+        "in", "on", "at", "by", "with", "to", "from", "of", "up", "down", "over", "under",
+        "through", "across", "between", "during", "within", "without",
+        
+        # Articles & Determiners
+        "the", "a", "an", "some", "any", "many", "each", "every", "all",
+        "few", "several", "most",
+        
+        # Adverbs of Time
+        "soon", "today", "tomorrow", "yesterday", "already", "still", "always", "never",
+        "sometimes", "often", "rarely", "usually",
+        
+        # Adverbs of Place
+        "everywhere", "above", "below", "inside", "outside", "nearby", "far",
+        "left", "right", "forward", "back",
+        
+        # Adverbs of Manner
+        "well", "badly", "quickly", "slowly", "carefully", "easily",
+        "hard", "fast", "loud", "quiet",
+        
+        # Modal Verbs
+        "can", "could", "may", "might", "will", "would", "shall", "should", "must",
+        
+        # Common Linking Words
+        "also", "too", "either", "however", "therefore", "thus", "moreover", "furthermore",
+        "nevertheless", "nonetheless", "indeed", "certainly", "perhaps",
+        
+        # Auxiliary and Common Verbs
+        "be", "is", "are", "was", "were", "been", "being", "have", "has", "had",
+        "do", "does", "did", "ought", "need", "dare", "used"
+    ]
+    
+    # Convert excluded words to set for faster lookup (case-insensitive)
+    excluded_words_set = {word.lower() for word in excluded_words}
+    
+    # Custom word mappings for semantic grouping (case-insensitive)
+    custom_mappings = {
+        "prophet": ["musa", "moses", "abraham", "ibrahim", "jesus", "isa", "muhammad", "noah", "nuh", 
+                   "joseph", "yusuf", "david", "dawud", "solomon", "sulaiman", "adam", "lot", "lut"],
+        "angel": ["gabriel", "jibril", "michael", "mikail", "israfil", "azrael"],
+        "book": ["torah", "injil", "gospel", "zabur", "psalms", "quran", "koran"],
+        "place": ["mecca", "makkah", "medina", "madinah", "jerusalem", "baitul", "kaaba", "kabah"],
+        "prayer": ["salah", "namaz", "dua", "dhikr", "worship"],
+        "paradise": ["jannah", "garden", "gardens"],
+        "hell": ["jahannam", "fire", "hellfire"],
+        "faith": ["iman", "belief", "believe"]
     }
     
     # Convert text to lowercase and extract words
     words = re.findall(r'\b[a-zA-Z]+\b', text.lower())
     
-    # Find meaningful concepts
+    # Filter out excluded function words and collect meaningful content words
     tags = set()
     for word in words:
-        if word in common_concepts:
+        # Skip excluded function words
+        if word in excluded_words_set:
+            continue
+            
+        # Add the original word (content word)
+        if len(word) > 2:  # Skip very short words
             tags.add(word)
-        # Add plural forms
-        elif word.endswith('s') and word[:-1] in common_concepts:
-            tags.add(word[:-1])
+            
+        # Handle plural forms - add singular if it's not an excluded word
+        if word.endswith('s') and len(word) > 3:
+            singular = word[:-1]
+            if singular not in excluded_words_set:
+                tags.add(singular)
     
-    # Additional pattern-based tags
-    if re.search(r'\b(pray|prayer|salah)\b', text, re.IGNORECASE):
-        tags.add('prayer')
-    if re.search(r'\b(paradise|garden|jannah)\b', text, re.IGNORECASE):
-        tags.add('paradise')
-    if re.search(r'\b(hell|fire|jahannam)\b', text, re.IGNORECASE):
-        tags.add('hell')
-    if re.search(r'\b(believe|faith|iman)\b', text, re.IGNORECASE):
-        tags.add('faith')
+    # Add custom semantic tags based on word mappings
+    text_lower = text.lower()
+    for custom_tag, trigger_words in custom_mappings.items():
+        for trigger_word in trigger_words:
+            # Use word boundaries to match complete words only
+            if re.search(rf'\b{re.escape(trigger_word)}\b', text_lower):
+                tags.add(custom_tag)
+                break  # Only add the custom tag once per category
     
     return sorted(list(tags))
 

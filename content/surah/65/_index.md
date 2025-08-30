@@ -1,5 +1,10 @@
 +++
 weight = 65
 title = "At-Talaq"
-en = "The Divorce"
+en = "Divorce"
+titles_ar = ["At-Talaaq"]
+titles_en = ["Divorce"]
+place = "Madinah"
+title_refers = "Whole Surah"
+juz = [28]
 +++
