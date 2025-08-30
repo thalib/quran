@@ -2,7 +2,7 @@
 weight = 9
 title = "At-Tawbah"
 en = "Repentance"
-titles_ar = ["Bara\'a"]
+titles_ar = ["Baraa"]
 titles_en = ["Repentance", "Dissociation"]
 place = "Madinah"
 title_refers = ""

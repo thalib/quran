@@ -1,6 +1,6 @@
 +++
 weight = 23
-title = "Al-Mu\'minun"
+title = "Al-Muminun"
 en = "The Believers"
 titles_ar = ["Al-Muminoon"]
 titles_en = ["The Believers"]

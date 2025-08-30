@@ -1,6 +1,6 @@
 +++
 weight = 101
-title = "Al-Qari\'ah"
+title = "Al-Qariah"
 en = "The Striking Hour"
 titles_ar = ["Al-Qaariah"]
 titles_en = ["The Striking Hour", "The Great Calamity", "The Stunning Blow", "The Sudden Calamity"]

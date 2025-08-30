@@ -67,14 +67,14 @@ def create_markdown_content(sura_info: dict, sura_number: int) -> str:
     """
     # Format arrays for TOML with proper escaping
     def format_toml_array(arr):
-        """Format array for TOML with proper quote escaping."""
-        escaped_items = [item.replace('"', '\\"').replace("'", "\\'") for item in arr]
+        """Format array for TOML with proper quote escaping, removing apostrophes."""
+        escaped_items = [item.replace('"', '\\"').replace("'", "") for item in arr]
         return '[' + ', '.join(f'"{item}"' for item in escaped_items) + ']'
     
     # Format string for TOML with proper escaping
     def format_toml_string(s):
-        """Format string for TOML with proper quote escaping."""
-        return s.replace('"', '\\"').replace("'", "\\'")
+        """Format string for TOML with proper quote escaping, removing apostrophes."""
+        return s.replace('"', '\\"').replace("'", "")
     
     titles_ar = format_toml_array(sura_info['anglicized_names'])
     titles_en = format_toml_array(sura_info['english_names'])

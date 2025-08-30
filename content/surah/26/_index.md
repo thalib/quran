@@ -1,6 +1,6 @@
 +++
 weight = 26
-title = "Ash-Shu\'ara"
+title = "Ash-Shuara"
 en = "The Poets"
 titles_ar = ["Ash-Shuaraa"]
 titles_en = ["The Poets"]

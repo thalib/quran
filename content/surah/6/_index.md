@@ -1,6 +1,6 @@
 +++
 weight = 6
-title = "Al-An\'am"
+title = "Al-Anam"
 en = "The Cattle"
 titles_ar = ["Al-Anam"]
 titles_en = ["The Cattle"]

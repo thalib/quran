@@ -1,6 +1,6 @@
 +++
 weight = 96
-title = "Al-\'Alaq"
+title = "Al-Alaq"
 en = "The Clinging Clot"
 titles_ar = ["Al-Alaq"]
 titles_en = ["The Clinging Clot", "Clot of Blood", "The Germ-Cell"]

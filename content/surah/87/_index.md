@@ -1,6 +1,6 @@
 +++
 weight = 87
-title = "Al-A\'la"
+title = "Al-Ala"
 en = "The Most High"
 titles_ar = ["Al-Alaa"]
 titles_en = ["The Most High", "The All-Highest", "Glory To Your Lord In The Highest"]

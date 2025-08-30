@@ -1,6 +1,6 @@
 +++
 weight = 7
-title = "Al-A\'raf"
+title = "Al-Araf"
 en = "The Heights"
 titles_ar = ["Al-Araf"]
 titles_en = ["The Heights", "The Faculty of Discernment"]

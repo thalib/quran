@@ -1,6 +1,6 @@
 +++
 weight = 3
-title = "Al \'Imran"
+title = "Al Imran"
 en = "The Family of Imran"
 titles_ar = ["Aal Imran"]
 titles_en = ["The Family of Imran", "The House of ʿImrān"]

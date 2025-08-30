@@ -1,6 +1,6 @@
 +++
 weight = 13
-title = "Ar-Ra\'d"
+title = "Ar-Rad"
 en = "The Thunder"
 titles_ar = ["Ar-Raad"]
 titles_en = ["The Thunder"]

@@ -1,6 +1,6 @@
 +++
 weight = 62
-title = "Al-Jumu\'ah"
+title = "Al-Jumuah"
 en = "Congregation"
 titles_ar = ["Al-Jumuah"]
 titles_en = ["Congregation", "Friday", "Friday prayer"]
