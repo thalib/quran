@@ -25,18 +25,41 @@ Exception: None
 
   <section aria-label="Quran verses listing">
     {{ $paginator := .Paginate .Pages 50 }}
-    {{ range $paginator.Pages }}
-    <div class="row border-bottom mb-2">
+    {{ $pages := $paginator.Pages }}
+    {{ range $index, $page := $pages }}
+    <div class="row">
       <div class="col-auto">
-        <a href="{{ .RelPermalink }}" class="text-decoration-none fw-bold text-primary"
-          aria-label="Go to Surah {{ .Params.surah }}, Ayah {{ .Params.ayah }}">
-          {{ .Params.surah }}:{{ .Params.ayah }}
-        </a>
+        {{ if and $page.Params.surah $page.Params.ayah }}
+          <a href="{{ $page.RelPermalink }}" class="text-decoration-none fw-bold text-primary"
+            aria-label="Go to Surah {{ $page.Params.surah }}, Ayah {{ $page.Params.ayah }}">
+            {{ $page.Params.surah }}:{{ $page.Params.ayah }}
+          </a>
+        {{ else }}
+          <a href="{{ $page.RelPermalink }}" class="text-decoration-none fw-bold text-primary">
+            {{ $page.Title }}
+          </a>
+        {{ end }}
       </div>
       <div class="col">
-        <div class="lh-lg">{{ .Content }}</div>
+        <div class="lh-lg">{{ $page.Plain }}</div>
+        {{ if and $page.Params.surah $page.Params.ayah }}
+          {{ $filePath := printf "notes/%d/%d.md" $page.Params.surah $page.Params.ayah }}
+          {{ if fileExists $filePath}}
+            <div class="m-2 p-2 ps-3 border-start border-5 border-info">
+              {{ partial "includeFile.html" (dict "page" $filePath) }}
+            </div>
+          {{ end }}
+        {{ end }}
       </div>
     </div>
+    {{/* Display horizontal rule when surah changes between consecutive verses */}}
+    {{ $nextIndex := add $index 1 }}
+    {{ if lt $nextIndex (len $pages) }}
+      {{ $nextPage := index $pages $nextIndex }}
+      {{ if and $page.Params.surah $nextPage.Params.surah (ne $page.Params.surah $nextPage.Params.surah) }}
+      <hr class="my-3 border-2 border-secondary opacity-50" />
+      {{ end }}
+    {{ end }}
     {{ end }}
   </section>
 

@@ -1,28 +1,31 @@
 {{ define "main" }}
 <article class="container" itemscope itemtype="http://schema.org/Article">
   <header class="row">
-    <div class="col">
+    <div class="d-flex flex-column">
       <h1 itemprop="headline">Surah {{ .Params.surah }}: Ayah {{ .Params.ayah }}</h1>
     </div>
+    <div>
+      {{ partial "list/terms.html" (dict "taxonomy" "tags" "page" .) }}
+    </div>    
   </header>
 
   <section class="row pt-3 border-bottom">
     <div class="col" itemprop="articleBody">
       <div class="row">
-      <div class="col-auto">
-        <a href="{{ .RelPermalink }}" class="text-decoration-none">{{ .Params.surah }}:{{ .Params.ayah }}</a>
-      </div>
-      <div class="col">
-        {{ .Content }}
-
-        {{ $filePath := printf "notes/%d/%d.md" .Params.surah .Params.ayah }}
-        {{ if fileExists $filePath}}
-        <div class="m-2 p-2 ps-3 border-start border-5 border-info">
-          {{ partial "includeFile.html" (dict "page" $filePath) }}
+        <div class="col-auto">
+          <a href="{{ .RelPermalink }}" class="text-decoration-none">{{ .Params.surah }}:{{ .Params.ayah }}</a>
         </div>
-        {{ end }}
+        <div class="col">
+          {{ .Content }}
+
+          {{ $filePath := printf "notes/%d/%d.md" .Params.surah .Params.ayah }}
+          {{ if fileExists $filePath}}
+          <div class="m-2 p-2 ps-3 border-start border-5 border-info">
+            {{ partial "includeFile.html" (dict "page" $filePath) }}
+          </div>
+          {{ end }}
+        </div>
       </div>
-    </div>
     </div>
   </section>
 </article>
