@@ -1,0 +1,51 @@
+{{/*
+Template: section.html
+Purpose: layout for listing articles/blog post with pagination
+Params:
+- .Title: Section title
+- .Content: Optional section description/content
+Usage: Automatically used for section pages (e.g., /articles/, /salah/)
+Dependencies: Bootstrap 5.3, pagination.html partial
+Rules:
+- Show Title with link to article, summary
+- Displays 15 items per page with full content preview
+- Limit the pages to within current surah
+Exception: None
+*/}}
+
+<main class="container container-800px py-5" role="main">
+  <header class="row border-bottom mb-4">
+    <div class="col-12">
+      <h1 class="py-2 mb-4 border-bottom border-5 border-primary">{{ .Title }}</h1>
+      {{ if .Content }}
+      <div class="lead mb-4">{{ .Content }}</div>
+      {{ end }}
+    </div>
+  </header>
+
+  <section aria-label="Articles listing">
+    {{ $paginator := .Paginate .Pages 50 }}
+    {{ $pages := $paginator.Pages }}
+    {{ range $index, $page := $pages }}
+    <article class="row mb-4 pb-3 border-bottom">
+      <div class="col">
+        <h2 class="h5 mb-2">
+          <a href="{{ $page.RelPermalink }}" class="text-decoration-none text-primary">
+            {{ $page.Title }}
+          </a>
+        </h2>
+        <div class="text-muted lh-lg">{{ $page.Plain | truncate 300 }}</div>
+        {{ if $page.Date }}
+        <small class="text-muted d-block mt-2">
+          <time datetime="{{ $page.Date.Format "2006-01-02" }}">
+            {{ $page.Date.Format "January 2, 2006" }}
+          </time>
+        </small>
+        {{ end }}
+      </div>
+    </article>
+    {{ end }}
+  </section>
+
+  {{ partial "pagination.html" $paginator }}
+</main>
