@@ -1,6 +1,6 @@
 ---
 description: "Documentation and content creation standards"
-applyTo: "hugo/content/**/*.md"
+applyTo: "content/**/*.md"
 ---
 
 # Markdown Rules and Formatting Structure
