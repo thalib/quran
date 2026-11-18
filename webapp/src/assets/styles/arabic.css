@@ -1,5 +1,7 @@
 /* Arabic typography */
-.arabic {
+.arabic,
+.arabic-text {
   direction: rtl;
   font-family: "Amiri", serif;
+  font-size: var(--quran-font-size-arabic, 1.5rem);
 }

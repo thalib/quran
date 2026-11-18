@@ -1,0 +1,643 @@
+{
+  "schema_version": "1.0",
+  "content_version": "1.0.0",
+  "surah": {
+    "id": 1,
+    "number": 1,
+    "name": {
+      "arabic": "الفاتحة",
+      "transliteration": "Al-Fātiḥah",
+      "english": "The Opening"
+    },
+    "revelation_type": "Meccan",
+    "total_verses": 7,
+    "total_words": 29
+  },
+  "languages": {
+    "en": {
+      "name": "English",
+      "direction": "ltr"
+    }
+  },
+  "verses": [
+    {
+      "id": 1,
+      "number": 1,
+      "arabic": {
+        "text": "بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ"
+      },
+      "translation": {
+        "en": {
+          "text": "In the name of Allāh, the Entirely Merciful, the Especially Merciful.",
+          "source": {
+            "id": "sahih-international"
+          }
+        }
+      },
+      "explanation": null,
+      "words": [
+        {
+          "id": "1:1:1",
+          "position": 1,
+          "arabic": "بِسْمِ",
+          "transliteration": "bis'mi",
+          "meanings": {
+            "en": {
+              "primary": "In the name",
+              "alternatives": [],
+              "accepted_answers": ["in the name"]
+            }
+          },
+          "root": null,
+          "grammar": null,
+          "explanation": null
+        },
+        {
+          "id": "1:1:2",
+          "position": 2,
+          "arabic": "ٱللَّهِ",
+          "transliteration": "l-lahi",
+          "meanings": {
+            "en": {
+              "primary": "Allah",
+              "alternatives": [],
+              "accepted_answers": ["allah", "allāh"]
+            }
+          },
+          "root": null,
+          "grammar": null,
+          "explanation": null
+        },
+        {
+          "id": "1:1:3",
+          "position": 3,
+          "arabic": "ٱلرَّحْمَـٰنِ",
+          "transliteration": "l-raḥmāni",
+          "meanings": {
+            "en": {
+              "primary": "the Entirely Merciful",
+              "alternatives": [],
+              "accepted_answers": ["the entirely merciful", "the most gracious"]
+            }
+          },
+          "root": null,
+          "grammar": null,
+          "explanation": null
+        },
+        {
+          "id": "1:1:4",
+          "position": 4,
+          "arabic": "ٱلرَّحِيمِ",
+          "transliteration": "l-raḥīmi",
+          "meanings": {
+            "en": {
+              "primary": "the Especially Merciful",
+              "alternatives": [],
+              "accepted_answers": [
+                "the especially merciful",
+                "the most merciful"
+              ]
+            }
+          },
+          "root": null,
+          "grammar": null,
+          "explanation": null
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "number": 2,
+      "arabic": {
+        "text": "ٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَـٰلَمِينَ"
+      },
+      "translation": {
+        "en": {
+          "text": "[All] praise is [due] to Allāh, Lord of the worlds -",
+          "source": {
+            "id": "sahih-international"
+          }
+        }
+      },
+      "explanation": null,
+      "words": [
+        {
+          "id": "1:2:1",
+          "position": 1,
+          "arabic": "ٱلْحَمْدُ",
+          "transliteration": "al-ḥamdu",
+          "meanings": {
+            "en": {
+              "primary": "All praise",
+              "alternatives": [],
+              "accepted_answers": ["all praise", "all praises and thanks"]
+            }
+          },
+          "root": null,
+          "grammar": null,
+          "explanation": null
+        },
+        {
+          "id": "1:2:2",
+          "position": 2,
+          "arabic": "لِلَّهِ",
+          "transliteration": "lillahi",
+          "meanings": {
+            "en": {
+              "primary": "to Allah",
+              "alternatives": [],
+              "accepted_answers": ["to allah", "to allāh"]
+            }
+          },
+          "root": null,
+          "grammar": null,
+          "explanation": null
+        },
+        {
+          "id": "1:2:3",
+          "position": 3,
+          "arabic": "رَبِّ",
+          "transliteration": "rabbi",
+          "meanings": {
+            "en": {
+              "primary": "the Lord",
+              "alternatives": [],
+              "accepted_answers": ["the lord", "lord"]
+            }
+          },
+          "root": null,
+          "grammar": null,
+          "explanation": null
+        },
+        {
+          "id": "1:2:4",
+          "position": 4,
+          "arabic": "ٱلْعَـٰلَمِينَ",
+          "transliteration": "l-ʿālamīna",
+          "meanings": {
+            "en": {
+              "primary": "of the worlds",
+              "alternatives": [],
+              "accepted_answers": ["of the worlds", "of the universe"]
+            }
+          },
+          "root": null,
+          "grammar": null,
+          "explanation": null
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "number": 3,
+      "arabic": {
+        "text": "ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ"
+      },
+      "translation": {
+        "en": {
+          "text": "The Entirely Merciful, the Especially Merciful,",
+          "source": {
+            "id": "sahih-international"
+          }
+        }
+      },
+      "explanation": null,
+      "words": [
+        {
+          "id": "1:3:1",
+          "position": 1,
+          "arabic": "ٱلرَّحْمَـٰنِ",
+          "transliteration": "al-raḥmāni",
+          "meanings": {
+            "en": {
+              "primary": "the Entirely Merciful",
+              "alternatives": [],
+              "accepted_answers": ["the entirely merciful", "the most gracious"]
+            }
+          },
+          "root": null,
+          "grammar": null,
+          "explanation": null
+        },
+        {
+          "id": "1:3:2",
+          "position": 2,
+          "arabic": "ٱلرَّحِيمِ",
+          "transliteration": "l-raḥīmi",
+          "meanings": {
+            "en": {
+              "primary": "the Especially Merciful",
+              "alternatives": [],
+              "accepted_answers": [
+                "the especially merciful",
+                "the most merciful"
+              ]
+            }
+          },
+          "root": null,
+          "grammar": null,
+          "explanation": null
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "number": 4,
+      "arabic": {
+        "text": "مَـٰلِكِ يَوْمِ ٱلدِّينِ"
+      },
+      "translation": {
+        "en": {
+          "text": "Sovereign of the Day of Recompense.",
+          "source": {
+            "id": "sahih-international"
+          }
+        }
+      },
+      "explanation": null,
+      "words": [
+        {
+          "id": "1:4:1",
+          "position": 1,
+          "arabic": "مَـٰلِكِ",
+          "transliteration": "māliki",
+          "meanings": {
+            "en": {
+              "primary": "Master",
+              "alternatives": [],
+              "accepted_answers": ["master", "sovereign"]
+            }
+          },
+          "root": null,
+          "grammar": null,
+          "explanation": null
+        },
+        {
+          "id": "1:4:2",
+          "position": 2,
+          "arabic": "يَوْمِ",
+          "transliteration": "yawmi",
+          "meanings": {
+            "en": {
+              "primary": "of the Day",
+              "alternatives": [],
+              "accepted_answers": ["of the day"]
+            }
+          },
+          "root": null,
+          "grammar": null,
+          "explanation": null
+        },
+        {
+          "id": "1:4:3",
+          "position": 3,
+          "arabic": "ٱلدِّينِ",
+          "transliteration": "l-dīni",
+          "meanings": {
+            "en": {
+              "primary": "of Recompense",
+              "alternatives": [],
+              "accepted_answers": [
+                "of recompense",
+                "of judgment",
+                "of the judgment"
+              ]
+            }
+          },
+          "root": null,
+          "grammar": null,
+          "explanation": null
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "number": 5,
+      "arabic": {
+        "text": "إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ"
+      },
+      "translation": {
+        "en": {
+          "text": "It is You we worship and You we ask for help.",
+          "source": {
+            "id": "sahih-international"
+          }
+        }
+      },
+      "explanation": null,
+      "words": [
+        {
+          "id": "1:5:1",
+          "position": 1,
+          "arabic": "إِيَّاكَ",
+          "transliteration": "iyyāka",
+          "meanings": {
+            "en": {
+              "primary": "You alone",
+              "alternatives": [],
+              "accepted_answers": ["you alone"]
+            }
+          },
+          "root": null,
+          "grammar": null,
+          "explanation": null
+        },
+        {
+          "id": "1:5:2",
+          "position": 2,
+          "arabic": "نَعْبُدُ",
+          "transliteration": "naʿbudu",
+          "meanings": {
+            "en": {
+              "primary": "we worship",
+              "alternatives": [],
+              "accepted_answers": ["we worship"]
+            }
+          },
+          "root": null,
+          "grammar": null,
+          "explanation": null
+        },
+        {
+          "id": "1:5:3",
+          "position": 3,
+          "arabic": "وَإِيَّاكَ",
+          "transliteration": "wa-iyyāka",
+          "meanings": {
+            "en": {
+              "primary": "and You alone",
+              "alternatives": [],
+              "accepted_answers": ["and you alone"]
+            }
+          },
+          "root": null,
+          "grammar": null,
+          "explanation": null
+        },
+        {
+          "id": "1:5:4",
+          "position": 4,
+          "arabic": "نَسْتَعِينُ",
+          "transliteration": "nastaʿīnu",
+          "meanings": {
+            "en": {
+              "primary": "we ask for help",
+              "alternatives": [],
+              "accepted_answers": ["we ask for help"]
+            }
+          },
+          "root": null,
+          "grammar": null,
+          "explanation": null
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "number": 6,
+      "arabic": {
+        "text": "ٱهْدِنَا ٱلصِّرَٰطَ ٱلْمُسْتَقِيمَ"
+      },
+      "translation": {
+        "en": {
+          "text": "Guide us to the straight path -",
+          "source": {
+            "id": "sahih-international"
+          }
+        }
+      },
+      "explanation": null,
+      "words": [
+        {
+          "id": "1:6:1",
+          "position": 1,
+          "arabic": "ٱهْدِنَا",
+          "transliteration": "ih'dinā",
+          "meanings": {
+            "en": {
+              "primary": "Guide us",
+              "alternatives": [],
+              "accepted_answers": ["guide us"]
+            }
+          },
+          "root": null,
+          "grammar": null,
+          "explanation": null
+        },
+        {
+          "id": "1:6:2",
+          "position": 2,
+          "arabic": "ٱلصِّرَٰطَ",
+          "transliteration": "l-ṣirāṭa",
+          "meanings": {
+            "en": {
+              "primary": "to the path",
+              "alternatives": [],
+              "accepted_answers": ["to the path", "the path"]
+            }
+          },
+          "root": null,
+          "grammar": null,
+          "explanation": null
+        },
+        {
+          "id": "1:6:3",
+          "position": 3,
+          "arabic": "ٱلْمُسْتَقِيمَ",
+          "transliteration": "l-mus'taqīma",
+          "meanings": {
+            "en": {
+              "primary": "the straight",
+              "alternatives": [],
+              "accepted_answers": ["the straight", "the straight path"]
+            }
+          },
+          "root": null,
+          "grammar": null,
+          "explanation": null
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "number": 7,
+      "arabic": {
+        "text": "صِرَٰطَ ٱلَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ ٱلْمَغْضُوبِ عَلَيْهِمْ وَلَا ٱلضَّآلِّينَ"
+      },
+      "translation": {
+        "en": {
+          "text": "The path of those upon whom You have bestowed favor, not of those who have earned [Your] anger or of those who are astray.",
+          "source": {
+            "id": "sahih-international"
+          }
+        }
+      },
+      "explanation": null,
+      "words": [
+        {
+          "id": "1:7:1",
+          "position": 1,
+          "arabic": "صِرَٰطَ",
+          "transliteration": "ṣirāṭa",
+          "meanings": {
+            "en": {
+              "primary": "the path",
+              "alternatives": [],
+              "accepted_answers": ["the path"]
+            }
+          },
+          "root": null,
+          "grammar": null,
+          "explanation": null
+        },
+        {
+          "id": "1:7:2",
+          "position": 2,
+          "arabic": "ٱلَّذِينَ",
+          "transliteration": "alladhīna",
+          "meanings": {
+            "en": {
+              "primary": "of those",
+              "alternatives": [],
+              "accepted_answers": ["of those"]
+            }
+          },
+          "root": null,
+          "grammar": null,
+          "explanation": null
+        },
+        {
+          "id": "1:7:3",
+          "position": 3,
+          "arabic": "أَنْعَمْتَ",
+          "transliteration": "anʿamta",
+          "meanings": {
+            "en": {
+              "primary": "You have bestowed favor",
+              "alternatives": [],
+              "accepted_answers": ["you have bestowed favor", "bestowed favor"]
+            }
+          },
+          "root": null,
+          "grammar": null,
+          "explanation": null
+        },
+        {
+          "id": "1:7:4",
+          "position": 4,
+          "arabic": "عَلَيْهِمْ",
+          "transliteration": "ʿalayhim",
+          "meanings": {
+            "en": {
+              "primary": "upon them",
+              "alternatives": [],
+              "accepted_answers": ["upon them"]
+            }
+          },
+          "root": null,
+          "grammar": null,
+          "explanation": null
+        },
+        {
+          "id": "1:7:5",
+          "position": 5,
+          "arabic": "غَيْرِ",
+          "transliteration": "ghayri",
+          "meanings": {
+            "en": {
+              "primary": "not",
+              "alternatives": [],
+              "accepted_answers": ["not"]
+            }
+          },
+          "root": null,
+          "grammar": null,
+          "explanation": null
+        },
+        {
+          "id": "1:7:6",
+          "position": 6,
+          "arabic": "ٱلْمَغْضُوبِ",
+          "transliteration": "l-maghḍūbi",
+          "meanings": {
+            "en": {
+              "primary": "of those who earned wrath",
+              "alternatives": [],
+              "accepted_answers": [
+                "of those who earned wrath",
+                "who incurred anger"
+              ]
+            }
+          },
+          "root": null,
+          "grammar": null,
+          "explanation": null
+        },
+        {
+          "id": "1:7:7",
+          "position": 7,
+          "arabic": "عَلَيْهِمْ",
+          "transliteration": "ʿalayhim",
+          "meanings": {
+            "en": {
+              "primary": "upon them",
+              "alternatives": [],
+              "accepted_answers": ["upon them"]
+            }
+          },
+          "root": null,
+          "grammar": null,
+          "explanation": null
+        },
+        {
+          "id": "1:7:8",
+          "position": 8,
+          "arabic": "وَلَا",
+          "transliteration": "walā",
+          "meanings": {
+            "en": {
+              "primary": "and not",
+              "alternatives": [],
+              "accepted_answers": ["and not", "nor"]
+            }
+          },
+          "root": null,
+          "grammar": null,
+          "explanation": null
+        },
+        {
+          "id": "1:7:9",
+          "position": 9,
+          "arabic": "ٱلضَّآلِّينَ",
+          "transliteration": "l-ḍālīna",
+          "meanings": {
+            "en": {
+              "primary": "those who go astray",
+              "alternatives": [],
+              "accepted_answers": ["those who go astray"]
+            }
+          },
+          "root": null,
+          "grammar": null,
+          "explanation": null
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "quran-com-api",
+      "name": "Quran.com API v4",
+      "type": "quran-text-and-transliteration",
+      "url": "https://api.quran.com/api/v4/verses/by_chapter/1",
+      "license": "Publicly available Quran text and word-by-word data"
+    },
+    {
+      "id": "sahih-international",
+      "name": "Sahih International",
+      "type": "translation",
+      "url": "https://quran.com",
+      "license": "Refer to source provider terms"
+    }
+  ]
+}

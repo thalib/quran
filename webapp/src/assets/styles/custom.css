@@ -1,1 +1,9 @@
 /* Custom styles */
+:root {
+  --quran-font-size-arabic: 1.5rem;
+  --quran-font-size-english: 1rem;
+}
+
+.english-text {
+  font-size: var(--quran-font-size-english, 1rem);
+}

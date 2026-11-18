@@ -29,9 +29,14 @@
               </router-link>
             </li>
             <li class="nav-item">
-              <router-link class="nav-link" to="/settings">
+              <button
+                class="nav-link btn btn-link"
+                type="button"
+                data-bs-toggle="offcanvas"
+                data-bs-target="#settingsOffcanvas"
+              >
                 <i class="bi bi-gear"></i> Settings
-              </router-link>
+              </button>
             </li>
           </ul>
         </div>
@@ -40,7 +45,142 @@
     <main class="container mt-4">
       <router-view />
     </main>
+    <div
+      class="offcanvas offcanvas-end"
+      tabindex="-1"
+      id="settingsOffcanvas"
+      data-bs-scroll="true"
+      aria-labelledby="settingsOffcanvasLabel"
+    >
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="settingsOffcanvasLabel">Settings</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="offcanvas"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="offcanvas-body">
+        <h6 class="mb-3 mt-2 border-bottom pb-2 text-muted small uppercase">
+          Font Size
+        </h6>
+        <div class="mb-3">
+          <label for="arabicFontSize" class="form-label"
+            >Arabic font size</label
+          >
+          <input
+            id="arabicFontSize"
+            type="range"
+            class="form-range"
+            min="12"
+            max="48"
+            step="2"
+            :value="arabicFontSizePx"
+            @input="updateArabic"
+          />
+          <span class="ms-2">{{ arabicFontSizePx }} px</span>
+        </div>
+        <div class="mb-3">
+          <label for="englishFontSize" class="form-label"
+            >English font size</label
+          >
+          <input
+            id="englishFontSize"
+            type="range"
+            class="form-range"
+            min="12"
+            max="48"
+            step="2"
+            :value="englishFontSizePx"
+            @input="updateEnglish"
+          />
+          <span class="ms-2">{{ englishFontSizePx }} px</span>
+        </div>
+        <h6 class="mb-3 mt-4 border-bottom pb-2 text-muted small uppercase">
+          Display
+        </h6>
+        <div class="mb-3 form-check">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            id="showArabicVerse"
+            v-model="showArabicVerse"
+            @change="apply"
+          />
+          <label class="form-check-label" for="showArabicVerse"
+            >Show Arabic verse</label
+          >
+        </div>
+        <div class="mb-3 form-check">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            id="showWordMeanings"
+            v-model="showWordMeanings"
+            @change="apply"
+          />
+          <label class="form-check-label" for="showWordMeanings"
+            >Show word-by-word meanings</label
+          >
+        </div>
+        <div class="mb-3 form-check">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            id="showTranslation"
+            v-model="showTranslation"
+            @change="apply"
+          />
+          <label class="form-check-label" for="showTranslation"
+            >Show verse translation</label
+          >
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { useSettings } from "./composables/useSettings.js";
+import { computed } from "vue";
+
+const REM_BASE = 16;
+
+const {
+  arabicFontSize,
+  englishFontSize,
+  showArabicVerse,
+  showWordMeanings,
+  showTranslation,
+  apply,
+} = useSettings();
+
+const arabicFontSizePx = computed({
+  get() {
+    return Math.round(parseFloat(arabicFontSize.value) * REM_BASE);
+  },
+  set(val) {
+    arabicFontSize.value = `${val / REM_BASE}rem`;
+    apply();
+  },
+});
+
+const englishFontSizePx = computed({
+  get() {
+    return Math.round(parseFloat(englishFontSize.value) * REM_BASE);
+  },
+  set(val) {
+    englishFontSize.value = `${val / REM_BASE}rem`;
+    apply();
+  },
+});
+
+function updateArabic(event) {
+  arabicFontSizePx.value = Number(event.target.value);
+}
+
+function updateEnglish(event) {
+  englishFontSizePx.value = Number(event.target.value);
+}
+</script>
