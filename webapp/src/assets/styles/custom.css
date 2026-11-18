@@ -1,3 +1,21 @@
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/Inter-400.ttf") format("truetype");
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/Inter-600.ttf") format("truetype");
+  font-weight: 600;
+  font-display: swap;
+}
+
+:root {
+  --font-arabic: "Amiri Quran", "Amiri", serif;
+  --font-english: "Inter", sans-serif;
+}
+
 /* Custom styles */
 :root {
   --quran-font-size-arabic: 1.5rem;
@@ -5,5 +23,20 @@
 }
 
 .english-text {
+  font-family: var(--font-english);
   font-size: var(--quran-font-size-english, 1rem);
+}
+
+.verse-arabic {
+  margin-bottom: 0.5rem;
+  line-height: 2.2;
+}
+
+.word-row {
+  margin-bottom: 0.75rem;
+}
+
+.word-meaning {
+  margin-top: 0.6rem;
+  line-height: 1.5;
 }

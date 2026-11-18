@@ -61,12 +61,12 @@
       >
         <div class="card-body">
           <h5>Verse {{ verse.number }}</h5>
-          <div v-if="showArabicVerse" class="arabic-text mb-2" dir="rtl">
+          <div v-if="showArabicVerse" class="arabic-text verse-arabic mb-2" dir="rtl">
             {{ verse.arabic.text }}
           </div>
           <div
             v-if="showWordMeanings"
-            class="d-flex flex-wrap gap-3 mb-2"
+            class="d-flex flex-wrap gap-3 word-row mb-2"
             dir="rtl"
           >
             <div
@@ -97,7 +97,7 @@
               />
               <div
                 v-else-if="showWordMeanings"
-                class="small text-muted english-text"
+                class="small text-muted english-text word-meaning"
               >
                 {{ word.meanings.en.primary }}
               </div>
