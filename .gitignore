@@ -1,7 +1,16 @@
 .hugo_build.lock
 .vscode
 .devdbrc
-public/
-resources/
-out/
-quranx/
+/public/
+/resources/
+/out/
+/quranx/
+/temp/
+
+# Webapp (Node/Vite)
+webapp/node_modules/
+webapp/dist/
+webapp/.vite/
+webapp/coverage/
+*.log
+.kilo/

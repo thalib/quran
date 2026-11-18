@@ -1,0 +1,5 @@
+/* Arabic typography */
+.arabic {
+  direction: rtl;
+  font-family: "Amiri", serif;
+}
