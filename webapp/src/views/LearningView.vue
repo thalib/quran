@@ -27,9 +27,17 @@
             Test
           </button>
         </div>
-        <div v-if="mode === 'test'" class="d-flex flex-wrap gap-2 align-items-center">
+        <div
+          v-if="mode === 'test'"
+          class="d-flex flex-wrap gap-2 align-items-center"
+        >
           <label for="scope" class="form-label mb-0 small">Scope</label>
-          <select id="scope" v-model="scope" class="form-select form-select-sm" style="width: auto">
+          <select
+            id="scope"
+            v-model="scope"
+            class="form-select form-select-sm"
+            style="width: auto"
+          >
             <option value="surah">Entire Surah</option>
             <option value="verse">Individual Verse</option>
           </select>
@@ -46,14 +54,14 @@
           </select>
         </div>
       </div>
-      <div v-for="(verse, vIndex) in visibleVerses" :key="verse.id" class="card mb-3">
+      <div
+        v-for="(verse, vIndex) in visibleVerses"
+        :key="verse.id"
+        class="card mb-3"
+      >
         <div class="card-body">
           <h5>Verse {{ verse.number }}</h5>
-          <div
-            v-if="showArabicVerse"
-            class="arabic-text mb-2"
-            dir="rtl"
-          >
+          <div v-if="showArabicVerse" class="arabic-text mb-2" dir="rtl">
             {{ verse.arabic.text }}
           </div>
           <div
@@ -73,7 +81,7 @@
               :tabindex="mode === 'reading' ? 0 : -1"
               @click="mode === 'reading' && openWord(word)"
               @keydown.enter="mode === 'reading' && openWord(word)"
-              @keydown.space.prevent="mode === 'reading' && openWord(word)"
+              @keydown.space="mode === 'reading' && openWord(word)"
             >
               <div class="arabic-text">{{ word.arabic }}</div>
               <input
@@ -94,8 +102,8 @@
                 {{ word.meanings.en.primary }}
               </div>
             </div>
-            </div>
-           <p
+          </div>
+          <p
             v-if="
               mode === 'reading' &&
               showTranslation &&
@@ -115,8 +123,18 @@
         </div>
       </div>
     </template>
+    <div v-if="mode === 'test'" class="mb-3">
+      <button type="button" class="btn btn-primary" @click="submitTest">
+        Submit
+      </button>
+    </div>
   </div>
-  <div v-if="selectedWord" class="word-details" role="dialog" aria-label="Word details">
+  <div
+    v-if="selectedWord"
+    class="word-details"
+    role="dialog"
+    aria-label="Word details"
+  >
     <div class="word-details-backdrop" @click="closeWord"></div>
     <div class="word-details-panel">
       <button
@@ -178,14 +196,23 @@ import { onMounted, ref, computed, watch } from "vue";
 import { useRoute } from "vue-router";
 import { useQuran } from "../composables/useQuran.js";
 import { useSettings } from "../composables/useSettings.js";
+import { useRouter } from "vue-router";
+import { checkAnswers } from "../services/answerChecker.js";
+import {
+  loadAnswers as loadProgressAnswers,
+  saveAnswers as saveProgressAnswers,
+  recordAttempt,
+  updateLastVisited,
+} from "../services/progressService.js";
+import {
+  calculateScore,
+  calculateVerseScores,
+} from "../services/scoreService.js";
 
 const route = useRoute();
+const router = useRouter();
 const { surah, loading, error, load } = useQuran();
-const {
-  showArabicVerse,
-  showWordMeanings,
-  showTranslation,
-} = useSettings();
+const { showArabicVerse, showWordMeanings, showTranslation } = useSettings();
 
 const mode = ref("reading");
 const scope = ref("surah");
@@ -216,24 +243,57 @@ function storageKey() {
 
 function loadAnswers() {
   answers.value = {};
-  const key = storageKey();
-  if (!key) return;
+  if (!surah.value) return;
   try {
-    const raw = localStorage.getItem(key);
-    if (raw) answers.value = JSON.parse(raw);
+    const saved = loadProgressAnswers(surah.value.surah.id);
+    if (saved && Object.keys(saved).length) answers.value = saved;
   } catch {
     answers.value = {};
   }
 }
 
 function saveAnswers() {
-  const key = storageKey();
-  if (!key) return;
+  if (!surah.value) return;
   try {
-    localStorage.setItem(key, JSON.stringify(answers.value));
+    saveProgressAnswers(surah.value.surah.id, answers.value);
   } catch {
     // ignore
   }
+}
+
+async function submitTest() {
+  if (!surah.value) return;
+  const words = visibleVerses.value.flatMap((v) => v.words);
+  const results = checkAnswers(answers.value, words);
+  const summary = calculateScore(results);
+  const verseScores = calculateVerseScores(results);
+  const payload = {
+    surahId: surah.value.surah.id,
+    scope: scope.value,
+    selectedVerseNumber: selectedVerseNumber.value,
+    answers: { ...answers.value },
+    results: results.results || results,
+    summary,
+    verseScores,
+    submittedAt: new Date().toISOString(),
+  };
+  try {
+    localStorage.setItem(
+      `quran:results:surah:${surah.value.surah.id}`,
+      JSON.stringify(payload),
+    );
+  } catch {
+    // ignore
+  }
+  try {
+    recordAttempt(surah.value.surah.id, {
+      ...summary,
+      ...payload,
+    });
+  } catch {
+    // ignore
+  }
+  router.push(`/surah/${surah.value.surah.id}/results`);
 }
 
 function openWord(word) {
@@ -249,6 +309,11 @@ watch(
     if (id) {
       await load(id);
       loadAnswers();
+      try {
+        updateLastVisited(id, 1);
+      } catch {
+        // ignore
+      }
     }
   },
 );
@@ -256,6 +321,11 @@ watch(
 onMounted(async () => {
   await load(route.params.id);
   loadAnswers();
+  try {
+    updateLastVisited(route.params.id, 1);
+  } catch {
+    // ignore
+  }
 });
 </script>
 
@@ -277,11 +347,21 @@ onMounted(async () => {
   text-decoration: none;
 }
 
-.word-color-0 .arabic-text { color: #1f6feb; }
-.word-color-1 .arabic-text { color: #cf6a00; }
-.word-color-2 .arabic-text { color: #1a7f37; }
-.word-color-3 .arabic-text { color: #cf222e; }
-.word-color-4 .arabic-text { color: #8250df; }
+.word-color-0 .arabic-text {
+  color: #1f6feb;
+}
+.word-color-1 .arabic-text {
+  color: #cf6a00;
+}
+.word-color-2 .arabic-text {
+  color: #1a7f37;
+}
+.word-color-3 .arabic-text {
+  color: #cf222e;
+}
+.word-color-4 .arabic-text {
+  color: #8250df;
+}
 
 .word-details-backdrop {
   position: fixed;

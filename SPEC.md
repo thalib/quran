@@ -1,7 +1,7 @@
 # Quran Learning App
 
 **Document Version:** 1.1  
-**Status:** Phase 1 — Foundation (in progress)  
+**Status:** Phase 6 — Progress and Settings (implemented)  
 **Last updated:** 2026-11-18  
 **Code reflects:** `webapp/src/` as committed
 
@@ -219,7 +219,6 @@ No tests yet for settingsService, answer checking, scoring, or views.
 - Answer checking service (`answerChecker.js`)
 - Progress service (`progressService.js`) + LocalStorage progress
 - Word details panel (click word → bottom sheet / side panel)
-- Results page functionality (scoring, verse-level results, corrections)
 - History page functionality
 - Settings page functionality (route not registered)
 - PWA / service worker / offline caching

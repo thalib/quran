@@ -4,6 +4,10 @@ const STORAGE_KEYS = {
   showArabicVerse: "quran:settings:showArabicVerse",
   showWordMeanings: "quran:settings:showWordMeanings",
   showTranslation: "quran:settings:showTranslation",
+  theme: "quran:settings:theme",
+  autoSave: "quran:settings:autoSave",
+  interfaceLanguage: "quran:settings:interfaceLanguage",
+  meaningLanguage: "quran:settings:meaningLanguage",
 };
 
 const DEFAULTS = {
@@ -12,6 +16,10 @@ const DEFAULTS = {
   showArabicVerse: true,
   showWordMeanings: true,
   showTranslation: true,
+  theme: "light",
+  autoSave: true,
+  interfaceLanguage: "en",
+  meaningLanguage: "en",
 };
 
 const CSS_VARS = {
@@ -19,7 +27,7 @@ const CSS_VARS = {
   englishFontSize: "--quran-font-size-english",
 };
 
-const TOGGLE_KEYS = ["showArabicVerse", "showWordMeanings", "showTranslation"];
+const TOGGLE_KEYS = ["showArabicVerse", "showWordMeanings", "showTranslation", "autoSave"];
 
 const MIN_FONT_SIZE = 0.75;
 const MAX_FONT_SIZE = 3;
@@ -70,6 +78,8 @@ export function loadSettings() {
     if (raw !== null) {
       if (TOGGLE_KEYS.includes(key)) {
         result[key] = parseBoolean(raw, DEFAULTS[key]);
+      } else if (key === "theme" || key === "interfaceLanguage" || key === "meaningLanguage") {
+        result[key] = String(raw);
       } else {
         result[key] = normalizeFontSize(raw, DEFAULTS[key]);
       }
@@ -88,6 +98,10 @@ export function saveSettings(partial) {
           const value = Boolean(partial[key]);
           merged[key] = value;
           writeStorage(STORAGE_KEYS[key], String(value));
+        } else if (key === "theme" || key === "interfaceLanguage" || key === "meaningLanguage") {
+          const value = String(partial[key]);
+          merged[key] = value;
+          writeStorage(STORAGE_KEYS[key], value);
         } else {
           const num = toNumber(partial[key]);
           if (!Number.isFinite(num)) continue;
@@ -117,6 +131,8 @@ export function applySettings(settings) {
       DEFAULTS.englishFontSize,
     ),
   };
+  const theme =
+    s.theme !== undefined ? String(s.theme) : DEFAULTS.theme;
   try {
     if (typeof document !== "undefined" && document.documentElement) {
       document.documentElement.style.setProperty(
@@ -127,11 +143,12 @@ export function applySettings(settings) {
         CSS_VARS.englishFontSize,
         normalized.englishFontSize,
       );
+      document.documentElement.setAttribute("data-bs-theme", theme);
     }
   } catch (e) {
     // ignore
   }
-  return normalized;
+  return { ...normalized, theme };
 }
 
 export { STORAGE_KEYS, DEFAULTS, CSS_VARS, MIN_FONT_SIZE, MAX_FONT_SIZE };

@@ -136,6 +136,66 @@
             >Show verse translation</label
           >
         </div>
+        <h6 class="mb-3 mt-4 border-bottom pb-2 text-muted small uppercase">
+          Preferences
+        </h6>
+        <div class="mb-3">
+          <label for="theme" class="form-label">Theme</label>
+          <select
+            id="theme"
+            class="form-select form-select-sm"
+            v-model="theme"
+            @change="apply"
+          >
+            <option value="light">Light</option>
+            <option value="dark">Dark</option>
+          </select>
+        </div>
+        <div class="mb-3 form-check">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            id="autoSave"
+            v-model="autoSave"
+            @change="apply"
+          />
+          <label class="form-check-label" for="autoSave">Auto-save answers</label>
+        </div>
+        <div class="mb-3">
+          <label for="interfaceLanguage" class="form-label"
+            >Interface language</label
+          >
+          <select
+            id="interfaceLanguage"
+            class="form-select form-select-sm"
+            v-model="interfaceLanguage"
+            @change="apply"
+          >
+            <option value="en">English</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label for="meaningLanguage" class="form-label"
+            >Meaning language</label
+          >
+          <select
+            id="meaningLanguage"
+            class="form-select form-select-sm"
+            v-model="meaningLanguage"
+            @change="apply"
+          >
+            <option value="en">English</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <button
+            type="button"
+            class="btn btn-outline-danger btn-sm"
+            @click="resetProgress"
+          >
+            Clear progress
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -143,6 +203,7 @@
 
 <script setup>
 import { useSettings } from "./composables/useSettings.js";
+import { clearProgress } from "./services/progressService.js";
 import { computed } from "vue";
 
 const REM_BASE = 16;
@@ -153,8 +214,18 @@ const {
   showArabicVerse,
   showWordMeanings,
   showTranslation,
+  theme,
+  autoSave,
+  interfaceLanguage,
+  meaningLanguage,
   apply,
 } = useSettings();
+
+function resetProgress() {
+  if (window.confirm("Clear all progress?")) {
+    clearProgress();
+  }
+}
 
 const arabicFontSizePx = computed({
   get() {
