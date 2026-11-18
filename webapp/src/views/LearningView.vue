@@ -8,7 +8,45 @@
         <h2>{{ surah.surah.name.english }} ({{ surah.surah.name.arabic }})</h2>
         <p class="text-muted">{{ surah.surah.name.transliteration }}</p>
       </div>
-      <div v-for="(verse, vIndex) in surah.verses" :key="verse.id" class="card mb-3">
+      <div class="mb-3 d-flex flex-wrap gap-2 align-items-center">
+        <div class="btn-group" role="group" aria-label="Learning mode">
+          <button
+            type="button"
+            class="btn btn-sm"
+            :class="mode === 'reading' ? 'btn-primary' : 'btn-outline-primary'"
+            @click="mode = 'reading'"
+          >
+            Reading
+          </button>
+          <button
+            type="button"
+            class="btn btn-sm"
+            :class="mode === 'test' ? 'btn-primary' : 'btn-outline-primary'"
+            @click="mode = 'test'"
+          >
+            Test
+          </button>
+        </div>
+        <div v-if="mode === 'test'" class="d-flex flex-wrap gap-2 align-items-center">
+          <label for="scope" class="form-label mb-0 small">Scope</label>
+          <select id="scope" v-model="scope" class="form-select form-select-sm" style="width: auto">
+            <option value="surah">Entire Surah</option>
+            <option value="verse">Individual Verse</option>
+          </select>
+          <select
+            v-if="scope === 'verse'"
+            v-model="selectedVerseNumber"
+            class="form-select form-select-sm"
+            style="width: auto"
+            aria-label="Select verse"
+          >
+            <option v-for="v in surah.verses" :key="v.id" :value="v.number">
+              Verse {{ v.number }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div v-for="(verse, vIndex) in visibleVerses" :key="verse.id" class="card mb-3">
         <div class="card-body">
           <h5>Verse {{ verse.number }}</h5>
           <div
@@ -28,23 +66,38 @@
               :key="word.id"
               :class="[
                 'text-center',
-                'word-clickable',
+                mode === 'reading' ? 'word-clickable' : '',
                 'word-color-' + ((vIndex * 7 + wIndex) % 5),
               ]"
-              role="button"
-              tabindex="0"
-              @click="openWord(word)"
-              @keydown.enter="openWord(word)"
-              @keydown.space.prevent="openWord(word)"
+              :role="mode === 'reading' ? 'button' : undefined"
+              :tabindex="mode === 'reading' ? 0 : -1"
+              @click="mode === 'reading' && openWord(word)"
+              @keydown.enter="mode === 'reading' && openWord(word)"
+              @keydown.space.prevent="mode === 'reading' && openWord(word)"
             >
               <div class="arabic-text">{{ word.arabic }}</div>
-              <div class="small text-muted english-text">
+              <input
+                v-if="mode === 'test'"
+                v-model="answers[word.id]"
+                type="text"
+                dir="ltr"
+                lang="en"
+                autocomplete="off"
+                spellcheck="false"
+                class="form-control form-control-sm mt-1 test-input"
+                @input="saveAnswers"
+              />
+              <div
+                v-else-if="showWordMeanings"
+                class="small text-muted english-text"
+              >
                 {{ word.meanings.en.primary }}
               </div>
             </div>
-          </div>
-          <p
+            </div>
+           <p
             v-if="
+              mode === 'reading' &&
               showTranslation &&
               verse.translation &&
               verse.translation.en
@@ -53,7 +106,10 @@
           >
             <strong>Translation:</strong> {{ verse.translation.en.text }}
           </p>
-          <p v-if="verse.explanation" class="english-text">
+          <p
+            v-if="mode === 'reading' && verse.explanation"
+            class="english-text"
+          >
             <strong>Explanation:</strong> {{ verse.explanation }}
           </p>
         </div>
@@ -118,7 +174,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from "vue";
+import { onMounted, ref, computed, watch } from "vue";
 import { useRoute } from "vue-router";
 import { useQuran } from "../composables/useQuran.js";
 import { useSettings } from "../composables/useSettings.js";
@@ -131,7 +187,55 @@ const {
   showTranslation,
 } = useSettings();
 
+const mode = ref("reading");
+const scope = ref("surah");
+const selectedVerseNumber = ref(1);
 const selectedWord = ref(null);
+const answers = ref({});
+
+watch(
+  answers,
+  () => {
+    saveAnswers();
+  },
+  { deep: true },
+);
+const visibleVerses = computed(() => {
+  if (!surah.value) return [];
+  if (mode.value !== "test" || scope.value === "surah") {
+    return surah.value.verses;
+  }
+  return surah.value.verses.filter(
+    (v) => v.number === selectedVerseNumber.value,
+  );
+});
+
+function storageKey() {
+  return surah.value ? `quran:answers:surah:${surah.value.surah.id}` : null;
+}
+
+function loadAnswers() {
+  answers.value = {};
+  const key = storageKey();
+  if (!key) return;
+  try {
+    const raw = localStorage.getItem(key);
+    if (raw) answers.value = JSON.parse(raw);
+  } catch {
+    answers.value = {};
+  }
+}
+
+function saveAnswers() {
+  const key = storageKey();
+  if (!key) return;
+  try {
+    localStorage.setItem(key, JSON.stringify(answers.value));
+  } catch {
+    // ignore
+  }
+}
+
 function openWord(word) {
   selectedWord.value = word;
 }
@@ -139,8 +243,19 @@ function closeWord() {
   selectedWord.value = null;
 }
 
-onMounted(() => {
-  load(route.params.id);
+watch(
+  () => route.params.id,
+  async (id) => {
+    if (id) {
+      await load(id);
+      loadAnswers();
+    }
+  },
+);
+
+onMounted(async () => {
+  await load(route.params.id);
+  loadAnswers();
 });
 </script>
 
@@ -199,5 +314,10 @@ onMounted(() => {
     border-left: 1px solid var(--bs-border-color, #dee2e6);
     border-top: none;
   }
+}
+.test-input {
+  border-radius: 2rem;
+  padding: 0.5rem 1rem;
+  text-align: center;
 }
 </style>

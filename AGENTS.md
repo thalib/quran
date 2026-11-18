@@ -31,6 +31,7 @@ Spec: `SPEC.md` is the single source of truth for this app.
 - Always use relative paths; never use absolute paths to access files unless explicitly instructed.
 - For temporary work, use `temp/tmp/` instead of `/tmp`.
 - Keep all CSS and JS bundled locally; do not depend on CDN-hosted assets so the app works fully offline without network.
+- Always stop dev servers and background completions (build/test/watch processes) when finished; never leave them running.
   1. **Check spec** — read `SPEC.md` (single source of truth) and understand the requirement.
   2. **Update spec** — if the requirement changes or is missing, update the spec first.
   3. **Write failing test (red)** — add/update tests in `webapp/tests/` that encode the expected behavior; confirm they fail.
